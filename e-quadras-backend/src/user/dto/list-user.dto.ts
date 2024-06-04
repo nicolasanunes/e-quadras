@@ -1,15 +1,22 @@
 import { ObjectId } from 'mongodb';
+import { UserEntity } from '../entities/user.entity';
 
 export class ListUserDto {
-  constructor(
-    readonly _id: ObjectId,
-    readonly name: string,
-    readonly email: string,
-    readonly password: string,
-    readonly cpf: string,
-    readonly phone: string,
-    readonly userType: number,
-    readonly createdAt: Date,
-    readonly updatedAt: Date,
-  ) {}
+  _id: ObjectId;
+  name: string;
+  email: string;
+  password: string;
+  cpf: string;
+  phone: string;
+  userType: number;
+
+  constructor(userEntity: UserEntity) {
+    this._id = userEntity._id;
+    this.name = userEntity.name;
+    this.email = userEntity.email;
+    this.password = userEntity.password;
+    this.cpf = userEntity.cpf;
+    this.phone = userEntity.phone;
+    this.userType = userEntity.userType;
+  }
 }

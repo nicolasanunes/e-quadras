@@ -7,6 +7,9 @@ import { SportsCourtEntity } from './sports-court/entities/sports-court.entity';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { UserEntity } from './user/entities/user.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './guard/role.guard';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -20,9 +23,15 @@ import { UserEntity } from './user/entities/user.entity';
     }),
     SportsCourtModule,
     AuthModule,
+    JwtModule,
     UserModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}
