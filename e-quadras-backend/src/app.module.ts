@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
-import { SportsCourtController } from './sports-court/sports-court.controller';
-import { SportsCourtService } from './sports-court/sports-court.service';
 import { SportsCourtModule } from './sports-court/sports-court.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DbConfigService } from './db/db-config.service';
 import { SportsCourtEntity } from './sports-court/entities/sports-court.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { UserEntity } from './user/entities/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([SportsCourtEntity]),
+    TypeOrmModule.forFeature([SportsCourtEntity, UserEntity]),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -18,8 +19,10 @@ import { SportsCourtEntity } from './sports-court/entities/sports-court.entity';
       inject: [DbConfigService],
     }),
     SportsCourtModule,
+    AuthModule,
+    UserModule,
   ],
-  controllers: [SportsCourtController],
-  providers: [SportsCourtService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
