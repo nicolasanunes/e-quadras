@@ -1,5 +1,5 @@
 function CreateSportsCourt() {
-  return <p>Hello!</p>;
+  return <div>Hello!</div>;
 }
 
 export default CreateSportsCourt;

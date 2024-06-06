@@ -1,10 +1,14 @@
 import { useState } from 'react';
 
+import useRequest from '../../../shared/hooks/useRequest';
+
 function LoginScreen() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  const { postRequest } = useRequest();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -22,16 +26,7 @@ function LoginScreen() {
 
     const requestBody = JSON.stringify(Object.fromEntries(formDataObj));
 
-    fetch('http://localhost:3000/auth', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: requestBody,
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+    postRequest('http://localhost:3000/auth', requestBody);
   };
 
   return (
