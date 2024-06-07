@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import useRequest from '../../../shared/hooks/useRequest';
 
 function LoginScreen() {
+  const { accessToken, setAccessToken } = useGlobalContext();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -19,6 +21,8 @@ function LoginScreen() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
+    setAccessToken('novo token');
 
     const formDataObj = new FormData();
     formDataObj.append('email', formData.email);
@@ -38,7 +42,7 @@ function LoginScreen() {
               <div className="icon d-flex align-items-center justify-content-center">
                 <span className="fa fa-user-o"></span>
               </div>
-              <h3 className="text-center mb-4">Autenticar</h3>
+              <h3 className="text-center mb-4">Autenticar ({accessToken})</h3>
               <form action="#" className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <input
