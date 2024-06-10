@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import useRequest from '../../../shared/hooks/useRequest';
+import { UserType } from '../types/UserType';
 
 function LoginScreen() {
   const { accessToken, setAccessToken } = useGlobalContext();
@@ -19,18 +20,12 @@ function LoginScreen() {
     });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    setAccessToken('novo token');
+    const user = await postRequest<UserType>('http://localhost:3000/auth', formData);
 
-    const formDataObj = new FormData();
-    formDataObj.append('email', formData.email);
-    formDataObj.append('password', formData.password);
-
-    const requestBody = JSON.stringify(Object.fromEntries(formDataObj));
-
-    postRequest('http://localhost:3000/auth', requestBody);
+    setAccessToken(user?.accessToken || '');
   };
 
   return (
