@@ -1,11 +1,9 @@
 import { useState } from 'react';
 
-import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import useRequest from '../../../shared/hooks/useRequest';
 import { UserType } from '../types/UserType';
 
 function LoginScreen() {
-  const { accessToken, setAccessToken } = useGlobalContext();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -20,12 +18,8 @@ function LoginScreen() {
     });
   };
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    const user = await postRequest<UserType>('http://localhost:3000/auth', formData);
-
-    setAccessToken(user?.accessToken || '');
+  const handleSubmit = () => {
+    postRequest<UserType>('http://localhost:3000/auth', formData);
   };
 
   return (
@@ -37,7 +31,7 @@ function LoginScreen() {
               <div className="icon d-flex align-items-center justify-content-center">
                 <span className="fa fa-user-o"></span>
               </div>
-              <h3 className="text-center mb-4">Autenticar ({accessToken})</h3>
+              <h3 className="text-center mb-4">Autenticar</h3>
               <form action="#" className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <input
