@@ -3,18 +3,19 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { createHashedPassword } from 'src/utils/password';
 import { UserTypeEnum } from './enum/user-type.enum';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly userRepository: MongoRepository<UserEntity>,
   ) {}
 
   async createUser(
@@ -46,7 +47,20 @@ export class UserService {
     const user = await this.userRepository.findOneBy({ email });
 
     if (!user) {
-      throw new NotFoundException(`email: ${email} not found.`);
+      throw new NotFoundException(`email: ${email} não encontrado.`);
+    }
+
+    return user;
+  }
+
+  async listUserById(_id: ObjectId): Promise<UserEntity> {
+    const user = await this.userRepository.findOneBy({
+      _id: new ObjectId(_id),
+    });
+    console.log(user);
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado.');
     }
 
     return user;

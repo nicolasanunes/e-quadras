@@ -2,11 +2,11 @@ import { ObjectId } from 'mongodb';
 import { UserEntity } from 'src/user/entities/user.entity';
 
 export class LoginPayloadDto {
-  id: ObjectId;
+  _id: ObjectId;
   userType: number;
 
   constructor(user: UserEntity) {
-    this.id = user._id;
+    this._id = user._id;
     this.userType = user.userType;
   }
 }

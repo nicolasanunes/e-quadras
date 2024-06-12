@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import useRequest from '../../../shared/hooks/useRequest';
-import { UserType } from '../types/UserType';
 
 function LoginScreen() {
   const [formData, setFormData] = useState({
@@ -9,7 +8,7 @@ function LoginScreen() {
     password: '',
   });
 
-  const { postRequest } = useRequest();
+  const { authRequest } = useRequest();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -19,7 +18,7 @@ function LoginScreen() {
   };
 
   const handleSubmit = () => {
-    postRequest<UserType>('http://localhost:3000/auth', formData);
+    authRequest(formData);
   };
 
   return (

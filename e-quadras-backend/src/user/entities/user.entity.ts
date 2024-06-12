@@ -1,8 +1,8 @@
-import { ObjectId } from 'mongodb';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ObjectId,
   ObjectIdColumn,
   UpdateDateColumn,
 } from 'typeorm';
