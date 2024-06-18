@@ -1,22 +1,24 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import type { Router as RemixRouter } from '@remix-run/router';
+import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-dom';
 
-import FirtScreen from './modules/firtScreen';
-import LoginScreen from './modules/login';
-import SportsCourt from './modules/sportsCourt';
-import { GlobalProvider } from './shared/hooks/useGlobalContext';
+import { firstScreenRoutes } from './modules/firtScreen/routes';
+import { loginRoutes } from './modules/login/routes';
+import { sportCourtsRoutes } from './modules/sportsCourt/routes';
+import { verifyLoggedIn } from './shared/functions/connection/auth';
+import { useGlobalReducer } from './store/reducers/globalReducer/useGlobalReducer';
 
 function App() {
-  return (
-    <GlobalProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<FirtScreen />} />
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="/sports-court" element={<SportsCourt />} />
-        </Routes>
-      </BrowserRouter>
-    </GlobalProvider>
-  );
+  const { user, setUser } = useGlobalReducer();
+
+  const routes: RouteObject[] = [...firstScreenRoutes, ...loginRoutes];
+  const loggedInRoutes: RouteObject[] = [...sportCourtsRoutes].map((route) => ({
+    ...route,
+    loader: () => verifyLoggedIn(setUser, user),
+  }));
+
+  const router: RemixRouter = createBrowserRouter([...routes, ...loggedInRoutes]);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;

@@ -17,8 +17,14 @@ function LoginScreen() {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     authRequest(formData);
+  };
+
+  const handleCheckBoxOnChange = () => {
+    console.log('CheckBox foi marcada!');
   };
 
   return (
@@ -66,7 +72,7 @@ function LoginScreen() {
                   <div className="w-50">
                     <label className="checkbox-wrap checkbox-primary">
                       Lembre-me
-                      <input type="checkbox" checked />
+                      <input type="checkbox" onChange={handleCheckBoxOnChange} />
                       <span className="checkmark"></span>
                     </label>
                   </div>

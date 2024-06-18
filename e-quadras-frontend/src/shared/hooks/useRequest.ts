@@ -1,20 +1,20 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { AuthType } from '../../modules/login/types/AuthType';
+import { useGlobalReducer } from '../../store/reducers/globalReducer/useGlobalReducer';
 import { URL_AUTH } from '../constants/urls';
 import { setAuthorizationToken } from '../functions/connection/auth';
 import { connectionAPIPost } from '../functions/connection/connectionAPI';
 
 function useRequest() {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const { setUser } = useGlobalReducer();
 
   const getRequest = async (url: string) => {
     setLoading(true);
 
     return await fetch(url, {
-      method: 'GET',
+      method: 'get',
     })
       .then((response) => response.json())
       .then((data) => console.log(data))
@@ -42,12 +42,14 @@ function useRequest() {
 
     await connectionAPIPost<AuthType>(URL_AUTH, body)
       .then((result) => {
+        setUser(result.user);
         setAuthorizationToken(result.accessToken);
-        navigate('/sports-court');
+        window.location.href = '/sports-court';
         return result;
       })
       .catch(() => {
         console.log('Usuário ou senha inválidos.');
+        return undefined;
       });
 
     setLoading(false);

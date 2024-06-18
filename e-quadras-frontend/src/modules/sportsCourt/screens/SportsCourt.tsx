@@ -1,5 +1,9 @@
-const SportsCourt = () => {
-  return <div>SportsCourt</div>;
+import { useGlobalReducer } from '../../../store/reducers/globalReducer/useGlobalReducer';
+
+const SportsCourtScreen = () => {
+  const { user } = useGlobalReducer();
+
+  return <div>{`SportsCourt ${user?.name}`}</div>;
 };
 
-export default SportsCourt;
+export default SportsCourtScreen;
