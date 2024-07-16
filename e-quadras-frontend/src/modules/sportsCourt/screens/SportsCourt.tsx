@@ -1,4 +1,4 @@
-import { useGlobalReducer } from '../../../store/reducers/globalReducer/useGlobalReducer';
+import { useGlobalReducer } from '../../../state/store/reducers/globalReducer/useGlobalReducer';
 
 const SportsCourtScreen = () => {
   const { user } = useGlobalReducer();

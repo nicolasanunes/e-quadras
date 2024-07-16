@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { SportsCourtType } from '../../../shared/types/SportsCourtType';
+import { SportsCourtType } from '../../../../shared/types/SportsCourtType';
 import { useAppSelector } from '../../hooks';
 import { setSportsCourtAction, setSportsCourtsAction } from '.';
 

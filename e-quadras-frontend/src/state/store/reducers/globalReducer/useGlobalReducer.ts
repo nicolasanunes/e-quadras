@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { UserType } from '../../../modules/login/types/UserType';
+import { UserType } from '../../../../modules/login/types/UserType';
 import { useAppSelector } from '../../hooks';
 import { setUserAction } from '.';
 

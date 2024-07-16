@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { UserType } from '../../../modules/login/types/UserType';
+import { UserType } from '../../../../modules/login/types/UserType';
 
 interface GlobalState {
   user?: UserType;

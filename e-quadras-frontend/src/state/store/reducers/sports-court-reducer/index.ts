@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { SportsCourtType } from '../../../shared/types/SportsCourtType';
+import { SportsCourtType } from '../../../../shared/types/SportsCourtType';
 
 interface SportsCourtState {
   sportsCourts: SportsCourtType[];

@@ -1,6 +1,6 @@
-import { ObjectId } from 'typeorm/browser';
+//import { ObjectId } from 'typeorm/browser';
 
 export interface SportsCourtType {
-  _id: ObjectId;
+  _id: string;
   name: string;
 }
