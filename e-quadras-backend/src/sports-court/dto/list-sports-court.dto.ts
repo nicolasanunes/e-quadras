@@ -1,8 +1,6 @@
-import { ObjectId } from 'mongodb';
-
 export class ListSportsCourtDto {
   constructor(
-    readonly _id: ObjectId,
+    readonly id: number,
     readonly name: string,
   ) {}
 }

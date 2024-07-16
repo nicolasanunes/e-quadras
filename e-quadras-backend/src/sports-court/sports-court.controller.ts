@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { SportsCourtService } from './sports-court.service';
 import { CreateSportsCourtDto } from './dto/create-sports-court.dto';
 import { ListSportsCourtDto } from './dto/list-sports-court.dto';
-import { ObjectId } from 'mongodb';
 
 @Controller('sports-court')
 export class SportsCourtController {
@@ -17,7 +16,7 @@ export class SportsCourtController {
 
     return {
       sportsCourt: new ListSportsCourtDto(
-        createdSportsCourt._id,
+        createdSportsCourt.id,
         createdSportsCourt.name,
       ),
       message: 'Quadra de esportes criada!',
@@ -33,13 +32,13 @@ export class SportsCourtController {
   }
 
   @Delete(':id')
-  async deleteSportsCourt(@Param('id') id: ObjectId): Promise<any> {
+  async deleteSportsCourt(@Param('id') id: number): Promise<any> {
     const deletedSportsCourt =
       await this.sportsCourtService.deleteSportsCourt(id);
 
     return {
       sportsCourt: new ListSportsCourtDto(
-        deletedSportsCourt._id,
+        deletedSportsCourt.id,
         deletedSportsCourt.name,
       ),
       message: `Quadra de esportes ${deletedSportsCourt.name} deletada!`,

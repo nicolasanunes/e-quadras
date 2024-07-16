@@ -8,14 +8,15 @@ export class DbConfigService implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
-      type: 'mongodb',
+      type: 'postgres',
       host: this.configService.get<string>('DB_HOST'),
       port: this.configService.get<number>('DB_PORT'),
       username: this.configService.get<string>('DB_USERNAME'),
       password: this.configService.get<string>('DB_PASSWORD'),
       database: this.configService.get<string>('DB_NAME'),
       entities: [__dirname + '/../**/*.entity{.js,.ts}'],
-      authSource: 'admin',
+      // Usar synchronize: true apenas para desenvolvimento
+      //synchronize: true,
     };
   }
 }

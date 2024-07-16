@@ -10,10 +10,12 @@ import { UserEntity } from './user/entities/user.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guard/role.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { CompanyModule } from './company/company.module';
+import { CompanyEntity } from './company/entity/company.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([SportsCourtEntity, UserEntity]),
+    TypeOrmModule.forFeature([CompanyEntity, SportsCourtEntity, UserEntity]),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -25,6 +27,7 @@ import { JwtModule } from '@nestjs/jwt';
     AuthModule,
     JwtModule,
     UserModule,
+    CompanyModule,
   ],
   controllers: [],
   providers: [

@@ -1,16 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SportsCourtEntity } from './entities/sports-court.entity';
-import { MongoRepository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateSportsCourtDto } from './dto/create-sports-court.dto';
 import { ListSportsCourtDto } from './dto/list-sports-court.dto';
-import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class SportsCourtService {
   constructor(
     @InjectRepository(SportsCourtEntity)
-    private readonly sportsCourtRepository: MongoRepository<SportsCourtEntity>,
+    private readonly sportsCourtRepository: Repository<SportsCourtEntity>,
   ) {}
 
   async createSportsCourt(
@@ -27,16 +26,15 @@ export class SportsCourtService {
     const savedSportsCourt = await this.sportsCourtRepository.find();
 
     const listAllSportsCourt = savedSportsCourt.map(
-      (sportsCourt) =>
-        new ListSportsCourtDto(sportsCourt._id, sportsCourt.name),
+      (sportsCourt) => new ListSportsCourtDto(sportsCourt.id, sportsCourt.name),
     );
 
     return listAllSportsCourt;
   }
 
-  async deleteSportsCourt(id: ObjectId) {
+  async deleteSportsCourt(id: number) {
     const deletedSportsCourt = await this.sportsCourtRepository.findOneBy({
-      _id: new ObjectId(id),
+      id: id,
     });
 
     if (deletedSportsCourt !== null) {

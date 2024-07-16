@@ -1,10 +1,9 @@
-import { ObjectId } from 'mongodb';
-import { Column, Entity, ObjectIdColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'sports_court' })
 export class SportsCourtEntity {
-  @ObjectIdColumn({ name: '_id' })
-  _id: ObjectId;
+  @PrimaryGeneratedColumn({ name: 'id' })
+  id: number;
 
   @Column({ name: 'name', nullable: false })
   name: string;
