@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { UpdateCompanyDto } from './dto/update-company.dto';
-import { Roles } from 'src/decorator/role.decorator';
-import { UserTypeEnum } from 'src/user/enum/user-type.enum';
+import { Roles } from 'src/decorators/role.decorator';
+import { UserTypeEnum } from 'src/users/enums/user-type.enum';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { ListCompanyDto } from './dto/list-company.dto';
 

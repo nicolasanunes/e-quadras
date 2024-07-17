@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
+import { UserService } from 'src/users/user.service';
 import { LoginDto } from './dto/login.dto';
 import { ListLoginDto } from './dto/list-login.dto';
-import { UserEntity } from 'src/user/entities/user.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 import { validatePassword } from 'src/utils/password';
-import { ListUserDto } from 'src/user/dto/list-user.dto';
+import { ListUserDto } from 'src/users/dto/list-user.dto';
 import { LoginPayloadDto } from './dto/login-payload.dto';
 
 @Injectable()

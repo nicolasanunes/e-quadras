@@ -18,10 +18,10 @@ export class UserService {
   ) {}
 
   async createUser(
-    createUserDto: CreateUserDto,
-    userTypeEnum: number,
+    createUser: CreateUserDto,
+    userType: number,
   ): Promise<CreateUserDto> {
-    const user = await this.listUserByEmail(createUserDto.email).catch(
+    const user = await this.listUserByEmail(createUser.email).catch(
       () => undefined,
     );
 
@@ -31,11 +31,11 @@ export class UserService {
       );
     }
 
-    const hashedPassword = await createHashedPassword(createUserDto.password);
+    const hashedPassword = await createHashedPassword(createUser.password);
 
     return this.userRepository.save({
-      ...createUserDto,
-      userType: userTypeEnum,
+      ...createUser,
+      userType: userType,
       password: hashedPassword,
     });
   }

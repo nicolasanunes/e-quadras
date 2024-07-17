@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserTypeEnum } from './enum/user-type.enum';
+import { UserTypeEnum } from './enums/user-type.enum';
 import { ListUserDto } from './dto/list-user.dto';
-import { Roles } from 'src/decorator/role.decorator';
+import { Roles } from 'src/decorators/role.decorator';
 
 @Controller('user')
 export class UserController {
