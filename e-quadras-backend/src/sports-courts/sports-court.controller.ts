@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   //Delete,
   Get,
+  Param,
   //Param,
   Post,
   UsePipes,
@@ -42,17 +44,8 @@ export class SportsCourtController {
     );
   }
 
-  // @Delete(':id')
-  // async deleteSportsCourt(@Param('id') id: number): Promise<any> {
-  //   const deletedSportsCourt =
-  //     await this.sportsCourtService.deleteSportsCourt(id);
-
-  //   return {
-  //     sportsCourt: new ListSportsCourtDto(
-  //       deletedSportsCourt.id,
-  //       deletedSportsCourt.name,
-  //     ),
-  //     message: `Quadra de esportes ${deletedSportsCourt.name} deletada!`,
-  //   };
-  // }
+  @Delete(':id')
+  async deleteSportsCourt(@Param('id') id: number): Promise<any> {
+    return this.sportsCourtService.deleteSportsCourt(id);
+  }
 }

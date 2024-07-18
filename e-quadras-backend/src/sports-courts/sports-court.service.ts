@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SportsCourtEntity } from './entities/sports-court.entity';
 import { Repository } from 'typeorm';
@@ -38,13 +38,6 @@ export class SportsCourtService {
     });
   }
 
-  // Criar na tabela location com os endereços da quadra fornecidos no momento de criação da quadra
-  async createSportsCourtLocation(
-    createSportsCourtLocation: CreateLocationDto,
-  ): Promise<LocationEntity> {
-    return await this.locationRepository.save(createSportsCourtLocation);
-  }
-
   listAllSportsCourts(): Promise<ListSportsCourtDto[]> {
     return this.sportsCourtRepository.find({
       relations: {
@@ -54,16 +47,29 @@ export class SportsCourtService {
     });
   }
 
-  // async deleteSportsCourt(id: number) {
-  //   const deletedSportsCourt = await this.sportsCourtRepository.findOneBy({
-  //     id: id,
-  //   });
+  async deleteSportsCourt(id: number): Promise<object> {
+    const deletedSportsCourt = await this.sportsCourtRepository.findOne({
+      where: { id: id },
+    });
 
-  //   if (deletedSportsCourt !== null) {
-  //     await this.sportsCourtRepository.delete(id);
-  //     return deletedSportsCourt;
-  //   } else {
-  //     throw new NotFoundException('A quadra de esportes não foi encontrada!');
-  //   }
-  // }
+    if (deletedSportsCourt !== null) {
+      this.sportsCourtRepository.delete(id);
+      this.deleteSportsCourtLocation(deletedSportsCourt.locationId);
+      return { message: `A quadra ${deletedSportsCourt.name} foi excluída!` };
+    } else {
+      throw new NotFoundException('A quadra não foi encontrada!');
+    }
+  }
+
+  // Criar na tabela location com os endereços da quadra fornecidos no momento de criação da quadra
+  async createSportsCourtLocation(
+    createSportsCourtLocation: CreateLocationDto,
+  ): Promise<LocationEntity> {
+    return await this.locationRepository.save(createSportsCourtLocation);
+  }
+
+  // Deletar location
+  deleteSportsCourtLocation(id: number): void {
+    this.locationRepository.delete(id);
+  }
 }
