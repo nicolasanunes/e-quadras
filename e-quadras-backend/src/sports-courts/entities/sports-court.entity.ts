@@ -16,6 +16,12 @@ export class SportsCourtEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
+  @Column({ name: 'user_id', nullable: false })
+  userId: number;
+
+  @Column({ name: 'location_id', nullable: false })
+  locationId: number;
+
   @Column({ name: 'name', nullable: false })
   name: string;
 
@@ -33,9 +39,9 @@ export class SportsCourtEntity {
 
   @OneToOne(() => LocationEntity, (location) => location.sportsCourt)
   @JoinColumn({ name: 'location_id', referencedColumnName: 'id' })
-  locationId: LocationEntity;
+  location: LocationEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.sportsCourt)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  userId: UserEntity;
+  user: UserEntity;
 }

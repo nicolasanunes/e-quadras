@@ -14,7 +14,6 @@ import { ListSportsCourtDto } from './dto/list-sports-court.dto';
 import { Roles } from 'src/decorators/role.decorator';
 import { UserTypeEnum } from 'src/users/enums/user-type.enum';
 import { UserId } from 'src/decorators/user-id.decorator';
-import { UserEntity } from 'src/users/entities/user.entity';
 
 @Controller('sports-court')
 export class SportsCourtController {
@@ -24,7 +23,7 @@ export class SportsCourtController {
   @UsePipes(ValidationPipe)
   @Post()
   async createSportsCourt(
-    @UserId() userId: UserEntity,
+    @UserId() userId: number,
     @Body() createSportsCourt: CreateSportsCourtDto,
   ): Promise<CreateSportsCourtDto> {
     return this.sportsCourtService.createSportsCourt(

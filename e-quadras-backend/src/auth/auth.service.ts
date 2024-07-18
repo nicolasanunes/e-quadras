@@ -31,7 +31,7 @@ export class AuthService {
 
     return {
       accessToken: this.jwtService.sign({ ...new LoginPayloadDto(user) }),
-      user: new ListUserDto(user.email, user.name, user.phone),
+      user: new ListUserDto(user),
     };
   }
 }

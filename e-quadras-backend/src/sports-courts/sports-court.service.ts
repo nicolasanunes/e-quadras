@@ -15,21 +15,25 @@ export class SportsCourtService {
     private readonly sportsCourtRepository: Repository<SportsCourtEntity>,
     @InjectRepository(LocationEntity)
     private readonly locationRepository: Repository<LocationEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async createSportsCourt(
     createSportsCourt: CreateSportsCourtDto,
-    userId: UserEntity,
+    userId: number,
     isActive: boolean,
   ): Promise<CreateSportsCourtDto> {
     const location = await this.createSportsCourtLocation(
       createSportsCourt.location,
     );
 
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
     return this.sportsCourtRepository.save({
       ...createSportsCourt,
-      locationId: location,
-      userId: userId,
+      location: location,
+      user: user,
       isActive: isActive,
     });
   }
@@ -42,7 +46,12 @@ export class SportsCourtService {
   }
 
   listAllSportsCourts(): Promise<ListSportsCourtDto[]> {
-    return this.sportsCourtRepository.find();
+    return this.sportsCourtRepository.find({
+      relations: {
+        user: true,
+        location: true,
+      },
+    });
   }
 
   // async deleteSportsCourt(id: number) {
