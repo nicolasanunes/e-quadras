@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -16,17 +18,24 @@ import { Roles } from 'src/decorators/role.decorator';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
+  @Roles(UserTypeEnum.Root)
   @UsePipes(ValidationPipe)
   @Post()
   async createUser(@Body() createUser: CreateUserDto): Promise<CreateUserDto> {
     return this.userService.createUser(createUser, UserTypeEnum.Admin);
   }
 
-  @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
+  @Roles(UserTypeEnum.Root)
   @UsePipes(ValidationPipe)
   @Get()
   async listAllUsers(): Promise<ListUserDto[]> {
     return (await this.userService.listAllUsers()).map((user) => user);
+  }
+
+  @Roles(UserTypeEnum.Root)
+  @UsePipes(ValidationPipe)
+  @Delete(':id')
+  deleteUser(@Param('id') id: number): Promise<object> {
+    return this.userService.deleteUser(id);
   }
 }

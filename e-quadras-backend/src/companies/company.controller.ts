@@ -37,7 +37,7 @@ export class CompanyController {
     );
   }
 
-  @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
+  @Roles(UserTypeEnum.Root)
   @UsePipes(ValidationPipe)
   @Patch(':id')
   // Inicialmente update do nome, posteriormente adicionar a imagem de perfil

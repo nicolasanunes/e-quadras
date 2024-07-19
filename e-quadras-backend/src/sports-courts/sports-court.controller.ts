@@ -44,8 +44,10 @@ export class SportsCourtController {
     );
   }
 
+  @Roles(UserTypeEnum.Root)
+  @UsePipes(ValidationPipe)
   @Delete(':id')
-  async deleteSportsCourt(@Param('id') id: number): Promise<any> {
+  deleteSportsCourt(@Param('id') id: number): Promise<any> {
     return this.sportsCourtService.deleteSportsCourt(id);
   }
 }

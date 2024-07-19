@@ -40,7 +40,7 @@ export class UserService {
     });
   }
 
-  async listAllUsers(): Promise<ListUserDto[]> {
+  listAllUsers(): Promise<ListUserDto[]> {
     return this.userRepository.find();
   }
 
@@ -52,5 +52,18 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async deleteUser(id: number): Promise<object> {
+    const deletedUser = await this.userRepository.findOne({
+      where: { id: id },
+    });
+
+    if (deletedUser !== null) {
+      this.userRepository.delete(id);
+      return { message: `O usuário ${deletedUser.name} foi excluído!` };
+    } else {
+      throw new NotFoundException('O usuário não foi encontrado!');
+    }
   }
 }
