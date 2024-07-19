@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
@@ -13,6 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserTypeEnum } from './enums/user-type.enum';
 import { ListUserDto } from './dto/list-user.dto';
 import { Roles } from 'src/decorators/role.decorator';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -30,6 +32,16 @@ export class UserController {
   @Get()
   async listAllUsers(): Promise<ListUserDto[]> {
     return (await this.userService.listAllUsers()).map((user) => user);
+  }
+
+  @Roles(UserTypeEnum.Root)
+  @UsePipes(ValidationPipe)
+  @Patch(':id')
+  updateUser(
+    @Param('id') id: number,
+    @Body() updateUser: UpdateUserDto,
+  ): Promise<UpdateUserDto> {
+    return this.userService.updateUser(id, updateUser);
   }
 
   @Roles(UserTypeEnum.Root)

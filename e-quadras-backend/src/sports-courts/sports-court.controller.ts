@@ -47,7 +47,7 @@ export class SportsCourtController {
   @Roles(UserTypeEnum.Root)
   @UsePipes(ValidationPipe)
   @Delete(':id')
-  deleteSportsCourt(@Param('id') id: number): Promise<any> {
+  deleteSportsCourt(@Param('id') id: number): Promise<object> {
     return this.sportsCourtService.deleteSportsCourt(id);
   }
 }

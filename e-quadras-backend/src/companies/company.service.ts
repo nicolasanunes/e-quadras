@@ -27,7 +27,7 @@ export class CompanyService {
 
   async updateCompany(
     id: number,
-    updateCompanyDto: UpdateCompanyDto,
+    updateCompany: UpdateCompanyDto,
   ): Promise<UpdateCompanyDto> {
     const updatedCompany = await this.companyRepository.findOneBy({ id });
 
@@ -35,7 +35,7 @@ export class CompanyService {
       throw new NotFoundException('Empresa não encontrada!');
     }
 
-    Object.assign(updatedCompany, updateCompanyDto as CompanyEntity);
+    Object.assign(updatedCompany, updateCompany as CompanyEntity);
 
     return this.companyRepository.save(updatedCompany);
   }

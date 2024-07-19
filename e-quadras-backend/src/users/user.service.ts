@@ -9,6 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { createHashedPassword } from 'src/utils/password';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ListUserDto } from './dto/list-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -52,6 +53,25 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async updateUser(
+    id: number,
+    updateUser: UpdateUserDto,
+  ): Promise<UpdateUserDto> {
+    const updatedUser = await this.userRepository.findOne({
+      where: { id: id },
+    });
+
+    console.log(updatedUser);
+
+    if (updatedUser === null) {
+      throw new NotFoundException('Usuário não encontrado!');
+    }
+
+    Object.assign(updatedUser, updateUser as UserEntity);
+
+    return this.userRepository.save(updatedUser);
   }
 
   async deleteUser(id: number): Promise<object> {
