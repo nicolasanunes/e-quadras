@@ -11,11 +11,11 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { SportsCourtService } from './sports-court.service';
-import { CreateSportsCourtDto } from './dto/create-sports-court.dto';
 import { ListSportsCourtDto } from './dto/list-sports-court.dto';
 import { Roles } from 'src/decorators/role.decorator';
 import { UserTypeEnum } from 'src/users/enums/user-type.enum';
 import { UserId } from 'src/decorators/user-id.decorator';
+import { CreateCompleteSportsCourtDto } from './dto/create-complete-sports-court.dto';
 
 @Controller('sports-court')
 export class SportsCourtController {
@@ -24,15 +24,11 @@ export class SportsCourtController {
   @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Post()
-  async createSportsCourt(
+  async createCompleteSportsCourt(
     @UserId() userId: number,
-    @Body() createSportsCourt: CreateSportsCourtDto,
-  ): Promise<CreateSportsCourtDto> {
-    return this.sportsCourtService.createSportsCourt(
-      createSportsCourt,
-      userId,
-      true,
-    );
+    @Body() body: CreateCompleteSportsCourtDto,
+  ): Promise<object> {
+    return this.sportsCourtService.createCompleteSportsCourt(body, userId);
   }
 
   @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)

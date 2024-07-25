@@ -7,6 +7,8 @@ import { ListSportsCourtDto } from './dto/list-sports-court.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { LocationEntity } from './entities/location.entity';
+import { CreateCompleteSportsCourtDto } from './dto/create-complete-sports-court.dto';
+import { DayOfWeekEntity } from './entities/day-of-week.entity';
 
 @Injectable()
 export class SportsCourtService {
@@ -17,22 +19,46 @@ export class SportsCourtService {
     private readonly locationRepository: Repository<LocationEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(DayOfWeekEntity)
+    private readonly dayOfWeekRepository: Repository<DayOfWeekEntity>,
   ) {}
 
-  async createSportsCourt(
-    createSportsCourt: CreateSportsCourtDto,
+  async createCompleteSportsCourt(
+    body: CreateCompleteSportsCourtDto,
     userId: number,
-    isActive: boolean,
-  ): Promise<CreateSportsCourtDto> {
-    const location = await this.createSportsCourtLocation(
-      createSportsCourt.location,
-    );
+  ): Promise<object> {
+    const location = await this.createSportsCourtLocation(body.location);
 
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
+    const daysOfWeek = await this.dayOfWeekRepository.findByIds(
+      body.daysOfWeek,
+    );
+
+    const createSportsCourtDto: CreateSportsCourtDto = {
+      name: body.name,
+      modality: body.modality,
+      price: body.price,
+      location: location,
+      daysOfWeek: daysOfWeek,
+    };
+
+    const sportsCourt = await this.createSportsCourt(
+      createSportsCourtDto,
+      user,
+      true,
+    );
+
+    return { message: `A quadra ${sportsCourt.name} foi criada!` };
+  }
+
+  createSportsCourt(
+    createSportsCourt: CreateSportsCourtDto,
+    user: UserEntity,
+    isActive: boolean,
+  ): Promise<SportsCourtEntity> {
     return this.sportsCourtRepository.save({
       ...createSportsCourt,
-      location: location,
       user: user,
       isActive: isActive,
     });

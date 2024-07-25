@@ -1,13 +1,8 @@
-import {
-  IsArray,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from '@nestjs/class-validator';
+import { IsNotEmpty, IsNumber, IsString } from '@nestjs/class-validator';
 import { CreateLocationDto } from './create-location.dto';
 import { CreateDayOfWeekDto } from './create-day-of-week.dto';
 
-export class CreateSportsCourtDto {
+export class CreateCompleteSportsCourtDto {
   @IsNotEmpty({ message: 'O nome não pode ser vazio!' })
   @IsString()
   name: string;
@@ -23,7 +18,5 @@ export class CreateSportsCourtDto {
   @IsNotEmpty({ message: 'A localidade não pode ser vazia!' })
   location: CreateLocationDto;
 
-  @IsArray()
-  @IsNumber({}, { each: true })
   daysOfWeek: CreateDayOfWeekDto[];
 }

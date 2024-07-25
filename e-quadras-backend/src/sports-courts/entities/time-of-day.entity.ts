@@ -6,13 +6,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'days_of_week' })
-export class DaysOfWeekEntity {
+@Entity({ name: 'time_of_day' })
+export class TimeOfDayEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
-  @Column({ name: 'day_name' })
-  dayName: string;
+  @Column({ name: 'day_hour' })
+  dayHour: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

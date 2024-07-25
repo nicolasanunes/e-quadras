@@ -31,10 +31,10 @@ export class LocationEntity {
   @Column({ name: 'cep', nullable: false })
   cep: string;
 
-  @CreateDateColumn({ name: 'created_at ' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at ' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @OneToOne(() => SportsCourtEntity, (sportsCourt) => sportsCourt.locationId)

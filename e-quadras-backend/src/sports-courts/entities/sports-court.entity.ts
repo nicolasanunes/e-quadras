@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -10,6 +12,7 @@ import {
 } from 'typeorm';
 import { LocationEntity } from './location.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { DayOfWeekEntity } from './day-of-week.entity';
 
 @Entity({ name: 'sports_court' })
 export class SportsCourtEntity {
@@ -28,13 +31,16 @@ export class SportsCourtEntity {
   @Column({ name: 'modality', nullable: false })
   modality: string;
 
+  @Column({ name: 'price', nullable: false })
+  price: number;
+
   @Column({ name: 'is_active', nullable: false })
   isActive: boolean;
 
-  @CreateDateColumn({ name: 'created_at ' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at ' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   @OneToOne(() => LocationEntity, (location) => location.sportsCourt)
@@ -44,4 +50,18 @@ export class SportsCourtEntity {
   @ManyToOne(() => UserEntity, (user) => user.sportsCourt)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: UserEntity;
+
+  @ManyToMany(() => DayOfWeekEntity, (dayOfWeek) => dayOfWeek.sportsCourts)
+  @JoinTable({
+    name: 'sports_court_day_of_week',
+    joinColumn: {
+      name: 'sports_court_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'day_of_week_id',
+      referencedColumnName: 'id',
+    },
+  })
+  daysOfWeek: DayOfWeekEntity[];
 }
