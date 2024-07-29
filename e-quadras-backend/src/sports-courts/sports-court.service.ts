@@ -2,13 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SportsCourtEntity } from './entities/sports-court.entity';
 import { Repository } from 'typeorm';
-import { CreateSportsCourtDto } from './dto/create-sports-court.dto';
 import { ListSportsCourtDto } from './dto/list-sports-court.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { LocationEntity } from './entities/location.entity';
-import { CreateCompleteSportsCourtDto } from './dto/create-complete-sports-court.dto';
 import { DayOfWeekEntity } from './entities/day-of-week.entity';
+import { TimeOfDayEntity } from './entities/time-of-day.entity';
+import { CreateSportsCourtDto } from './dto/create-sports-court.dto';
 
 @Injectable()
 export class SportsCourtService {
@@ -21,10 +21,12 @@ export class SportsCourtService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(DayOfWeekEntity)
     private readonly dayOfWeekRepository: Repository<DayOfWeekEntity>,
+    @InjectRepository(TimeOfDayEntity)
+    private readonly timeOfDayRepository: Repository<TimeOfDayEntity>,
   ) {}
 
-  async createCompleteSportsCourt(
-    body: CreateCompleteSportsCourtDto,
+  async createSportsCourt(
+    body: CreateSportsCourtDto,
     userId: number,
   ): Promise<object> {
     const location = await this.createSportsCourtLocation(body.location);
@@ -35,33 +37,22 @@ export class SportsCourtService {
       body.daysOfWeek,
     );
 
-    const createSportsCourtDto: CreateSportsCourtDto = {
-      name: body.name,
-      modality: body.modality,
-      price: body.price,
-      location: location,
-      daysOfWeek: daysOfWeek,
-    };
-
-    const sportsCourt = await this.createSportsCourt(
-      createSportsCourtDto,
-      user,
-      true,
+    const timesOfDay = await this.timeOfDayRepository.findByIds(
+      body.timesOfDay,
     );
 
-    return { message: `A quadra ${sportsCourt.name} foi criada!` };
-  }
+    const createSportsCourt: CreateSportsCourtDto =
+      await this.sportsCourtRepository.save({
+        name: body.name,
+        modality: body.modality,
+        price: body.price,
+        location: location,
+        user: user,
+        daysOfWeek: daysOfWeek,
+        timesOfDay: timesOfDay,
+      });
 
-  createSportsCourt(
-    createSportsCourt: CreateSportsCourtDto,
-    user: UserEntity,
-    isActive: boolean,
-  ): Promise<SportsCourtEntity> {
-    return this.sportsCourtRepository.save({
-      ...createSportsCourt,
-      user: user,
-      isActive: isActive,
-    });
+    return { message: `A quadra ${createSportsCourt.name} foi criada!` };
   }
 
   listAllSportsCourts(): Promise<ListSportsCourtDto[]> {
@@ -69,6 +60,8 @@ export class SportsCourtService {
       relations: {
         user: true,
         location: true,
+        daysOfWeek: true,
+        timesOfDay: true,
       },
     });
   }

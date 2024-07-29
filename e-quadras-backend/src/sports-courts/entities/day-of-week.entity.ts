@@ -22,6 +22,6 @@ export class DayOfWeekEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToMany(() => SportsCourtEntity, (sportscourt) => sportscourt.daysOfWeek)
+  @ManyToMany(() => SportsCourtEntity, (sportscourt) => sportscourt.id)
   sportsCourts: SportsCourtEntity[];
 }

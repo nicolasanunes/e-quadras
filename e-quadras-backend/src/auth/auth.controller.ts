@@ -15,7 +15,7 @@ export class AuthController {
 
   @UsePipes(ValidationPipe)
   @Post()
-  async login(@Body() loginDto: LoginDto): Promise<ListLoginDto> {
-    return this.authService.login(loginDto);
+  async login(@Body() login: LoginDto): Promise<ListLoginDto> {
+    return this.authService.login(login);
   }
 }

@@ -6,6 +6,7 @@ import { SportsCourtService } from './sports-court.service';
 import { LocationEntity } from './entities/location.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { DayOfWeekEntity } from './entities/day-of-week.entity';
+import { TimeOfDayEntity } from './entities/time-of-day.entity';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { DayOfWeekEntity } from './entities/day-of-week.entity';
       LocationEntity,
       UserEntity,
       DayOfWeekEntity,
+      TimeOfDayEntity,
     ]),
   ],
   controllers: [SportsCourtController],

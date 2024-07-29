@@ -13,6 +13,7 @@ import {
 import { LocationEntity } from './location.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { DayOfWeekEntity } from './day-of-week.entity';
+import { TimeOfDayEntity } from './time-of-day.entity';
 
 @Entity({ name: 'sports_court' })
 export class SportsCourtEntity {
@@ -51,7 +52,7 @@ export class SportsCourtEntity {
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: UserEntity;
 
-  @ManyToMany(() => DayOfWeekEntity, (dayOfWeek) => dayOfWeek.sportsCourts)
+  @ManyToMany(() => DayOfWeekEntity, (dayOfWeek) => dayOfWeek.id)
   @JoinTable({
     name: 'sports_court_day_of_week',
     joinColumn: {
@@ -64,4 +65,18 @@ export class SportsCourtEntity {
     },
   })
   daysOfWeek: DayOfWeekEntity[];
+
+  @ManyToMany(() => TimeOfDayEntity, (timeofDay) => timeofDay.id)
+  @JoinTable({
+    name: 'sports_court_time_of_day',
+    joinColumn: {
+      name: 'sports_court_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'time_of_day_id',
+      referencedColumnName: 'id',
+    },
+  })
+  timesOfDay: TimeOfDayEntity[];
 }

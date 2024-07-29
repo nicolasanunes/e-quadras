@@ -15,13 +15,13 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(loginDto: LoginDto): Promise<ListLoginDto> {
+  async login(login: LoginDto): Promise<ListLoginDto> {
     const user: UserEntity | undefined = await this.userService
-      .listUserByEmail(loginDto.email)
+      .listUserByEmail(login.email)
       .catch(() => undefined);
 
     const isMatch = await validatePassword(
-      loginDto.password,
+      login.password,
       user?.password || '',
     );
 

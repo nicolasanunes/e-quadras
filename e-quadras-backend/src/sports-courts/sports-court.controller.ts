@@ -15,7 +15,7 @@ import { ListSportsCourtDto } from './dto/list-sports-court.dto';
 import { Roles } from 'src/decorators/role.decorator';
 import { UserTypeEnum } from 'src/users/enums/user-type.enum';
 import { UserId } from 'src/decorators/user-id.decorator';
-import { CreateCompleteSportsCourtDto } from './dto/create-complete-sports-court.dto';
+import { CreateSportsCourtDto } from './dto/create-sports-court.dto';
 
 @Controller('sports-court')
 export class SportsCourtController {
@@ -24,11 +24,11 @@ export class SportsCourtController {
   @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Post()
-  async createCompleteSportsCourt(
+  async createSportsCourt(
     @UserId() userId: number,
-    @Body() body: CreateCompleteSportsCourtDto,
+    @Body() body: CreateSportsCourtDto,
   ): Promise<object> {
-    return this.sportsCourtService.createCompleteSportsCourt(body, userId);
+    return this.sportsCourtService.createSportsCourt(body, userId);
   }
 
   @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
