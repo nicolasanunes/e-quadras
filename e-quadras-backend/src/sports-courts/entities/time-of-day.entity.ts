@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { ExtraScheduleEntity } from './extra-schedule.entity';
 import { SportsCourtEntity } from './sports-court.entity';
+import { InativeScheduleEntity } from './inative-schedule.entity';
 
 @Entity({ name: 'time_of_day' })
 export class TimeOfDayEntity {
@@ -32,4 +33,10 @@ export class TimeOfDayEntity {
     (extraSchedules) => extraSchedules.timeOfDay,
   )
   extraSchedules: ExtraScheduleEntity[];
+
+  @OneToMany(
+    () => InativeScheduleEntity,
+    (inativeSchedules) => inativeSchedules.timeOfDay,
+  )
+  inativeSchedules: InativeScheduleEntity[];
 }

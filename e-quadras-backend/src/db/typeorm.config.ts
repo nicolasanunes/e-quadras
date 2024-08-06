@@ -11,6 +11,7 @@ import { CreateJoinTableSportsCourtTimeOfDay1722256379303 } from '../migrations/
 import { AlterTableDayOfWeek1722289993132 } from '../migrations/1722289993132-alter-table-day-of-week';
 import { AlterTableTimeOfDay1722290001011 } from '../migrations/1722290001011-alter-table-time-of-day';
 import { CreateTableExtraSchedules1722347325255 } from '../migrations/1722347325255-create-table-extra-schedules';
+import { CreateTableInativeSchedules1722949040775 } from '../migrations/1722949040775-create-table-inative-schedules';
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ export default new DataSource({
     AlterTableDayOfWeek1722289993132,
     AlterTableTimeOfDay1722290001011,
     CreateTableExtraSchedules1722347325255,
+    CreateTableInativeSchedules1722949040775,
   ],
   //migrationsRun: true,
 });

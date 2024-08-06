@@ -23,7 +23,7 @@ export class ListSportsCourtDto {
     this.modality = sportsCourt.modality;
     this.price = sportsCourt.price;
     this.isActive = sportsCourt.isActive;
-    this.user = new ListUserDto(sportsCourt.user);
+    this.user = sportsCourt.user;
     this.daysOfWeek = daysOfWeek;
     this.timesOfDay = timesOfDay;
   }

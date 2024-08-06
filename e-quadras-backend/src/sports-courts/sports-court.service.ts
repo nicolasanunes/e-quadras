@@ -10,6 +10,9 @@ import { CreateSportsCourtDto } from './dto/create-sports-court.dto';
 import { CreateExtraScheduleDto } from './dto/create-extra-schedule.dto';
 import { ExtraScheduleEntity } from './entities/extra-schedule.entity';
 import { ListExtraScheduleDto } from './dto/list-extra-schedule.dto';
+import { CreateInativeScheduleDto } from './dto/create-inative-schedule.dto';
+import { InativeScheduleEntity } from './entities/inative-schedule.entity';
+import { ListInativeScheduleDto } from './dto/list-inative-schedule.dto';
 
 @Injectable()
 export class SportsCourtService {
@@ -24,6 +27,8 @@ export class SportsCourtService {
     private readonly timeOfDayRepository: Repository<TimeOfDayEntity>,
     @InjectRepository(ExtraScheduleEntity)
     private readonly extraScheduleRepository: Repository<ExtraScheduleEntity>,
+    @InjectRepository(InativeScheduleEntity)
+    private readonly inativeScheduleRepository: Repository<InativeScheduleEntity>,
   ) {}
 
   async createSportsCourt(
@@ -110,7 +115,50 @@ export class SportsCourtService {
     });
 
     return this.extraScheduleRepository.find({
-      where: { sportsCourt: sportsCourt },
+      where: { sportsCourt: { id: sportsCourt.id } },
+      relations: {
+        sportsCourt: true,
+        dayOfWeek: true,
+        timeOfDay: true,
+      },
+    });
+  }
+
+  // Criar horário inativo
+  async createInativeSchedule(body: CreateInativeScheduleDto): Promise<object> {
+    body.inativeSchedules.forEach(async (inativeSchedule) => {
+      const sportsCourt = await this.sportsCourtRepository.findOne({
+        where: { id: inativeSchedule.sportsCourt },
+      });
+
+      const dayOfWeek = await this.dayOfWeekRepository.findOne({
+        where: { id: inativeSchedule.dayOfWeek },
+      });
+
+      const timeOfDay = await this.timeOfDayRepository.findOne({
+        where: { id: inativeSchedule.timeOfDay },
+      });
+
+      await this.inativeScheduleRepository.save({
+        sportsCourt: sportsCourt,
+        dayOfWeek: dayOfWeek,
+        timeOfDay: timeOfDay,
+      });
+    });
+
+    return { message: `O horário inativo foi criado!` };
+  }
+
+  // Listar horários inativos buscando por id da quadra
+  async listInativeScheduleBySportsCourtId(
+    sportsCourtId: number,
+  ): Promise<ListInativeScheduleDto[]> {
+    const sportsCourt = await this.sportsCourtRepository.findOne({
+      where: { id: sportsCourtId },
+    });
+
+    return this.inativeScheduleRepository.find({
+      where: { sportsCourt: { id: sportsCourt.id } },
       relations: {
         sportsCourt: true,
         dayOfWeek: true,

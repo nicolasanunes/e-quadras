@@ -6,6 +6,7 @@ export class ListCompanyDto {
   location: ListLocationDto;
 
   constructor(company: CompanyEntity) {
+    this.name = company.name;
     this.location = company.location;
   }
 }

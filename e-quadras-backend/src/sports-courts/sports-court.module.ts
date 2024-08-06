@@ -7,6 +7,7 @@ import { UserEntity } from 'src/users/entities/user.entity';
 import { DayOfWeekEntity } from './entities/day-of-week.entity';
 import { TimeOfDayEntity } from './entities/time-of-day.entity';
 import { ExtraScheduleEntity } from './entities/extra-schedule.entity';
+import { InativeScheduleEntity } from './entities/inative-schedule.entity';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ExtraScheduleEntity } from './entities/extra-schedule.entity';
       DayOfWeekEntity,
       TimeOfDayEntity,
       ExtraScheduleEntity,
+      InativeScheduleEntity,
     ]),
   ],
   controllers: [SportsCourtController],
