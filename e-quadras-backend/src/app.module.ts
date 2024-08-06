@@ -13,6 +13,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { CompanyModule } from './companies/company.module';
 import { CompanyEntity } from './companies/entities/company.entity';
 import { LocationEntity } from './companies/entities/location.entity';
+import { CustomerEntity } from './customers/entities/customer.entity';
+import { CustomerModuler } from './customers/customer.module';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { LocationEntity } from './companies/entities/location.entity';
       SportsCourtEntity,
       LocationEntity,
       UserEntity,
+      CustomerEntity,
     ]),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -34,6 +37,7 @@ import { LocationEntity } from './companies/entities/location.entity';
     JwtModule,
     UserModule,
     CompanyModule,
+    CustomerModuler,
   ],
   controllers: [],
   providers: [
