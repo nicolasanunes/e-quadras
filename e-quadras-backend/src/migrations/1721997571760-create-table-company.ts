@@ -10,7 +10,9 @@ export class CreateTableCompany1721997571760 implements MigrationInterface {
               name VARCHAR(255) NOT NULL,
               profile_picture VARCHAR(255),
               created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-              updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+              updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              location_id INTEGER,
+              FOREIGN KEY (location_id) REFERENCES public.location(id) ON DELETE CASCADE
             );
           `);
   }

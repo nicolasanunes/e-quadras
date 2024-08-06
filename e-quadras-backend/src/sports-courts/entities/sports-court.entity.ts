@@ -6,25 +6,19 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { LocationEntity } from './location.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { DayOfWeekEntity } from './day-of-week.entity';
 import { TimeOfDayEntity } from './time-of-day.entity';
+import { ExtraScheduleEntity } from './extra-schedule.entity';
 
 @Entity({ name: 'sports_court' })
 export class SportsCourtEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
-
-  @Column({ name: 'user_id', nullable: false })
-  userId: number;
-
-  @Column({ name: 'location_id', nullable: false })
-  locationId: number;
 
   @Column({ name: 'name', nullable: false })
   name: string;
@@ -44,15 +38,11 @@ export class SportsCourtEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToOne(() => LocationEntity, (location) => location.sportsCourt)
-  @JoinColumn({ name: 'location_id', referencedColumnName: 'id' })
-  location: LocationEntity;
-
-  @ManyToOne(() => UserEntity, (user) => user.sportsCourt)
+  @ManyToOne(() => UserEntity, (user) => user.sportsCourts)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: UserEntity;
 
-  @ManyToMany(() => DayOfWeekEntity, (dayOfWeek) => dayOfWeek.id)
+  @ManyToMany(() => DayOfWeekEntity, (dayOfWeek) => dayOfWeek.sportsCourts)
   @JoinTable({
     name: 'sports_court_day_of_week',
     joinColumn: {
@@ -66,7 +56,7 @@ export class SportsCourtEntity {
   })
   daysOfWeek: DayOfWeekEntity[];
 
-  @ManyToMany(() => TimeOfDayEntity, (timeofDay) => timeofDay.id)
+  @ManyToMany(() => TimeOfDayEntity, (timeofDay) => timeofDay.sportsCourts)
   @JoinTable({
     name: 'sports_court_time_of_day',
     joinColumn: {
@@ -79,4 +69,10 @@ export class SportsCourtEntity {
     },
   })
   timesOfDay: TimeOfDayEntity[];
+
+  @OneToMany(
+    () => ExtraScheduleEntity,
+    (extraSchedule) => extraSchedule.sportsCourt,
+  )
+  extraSchedules: ExtraScheduleEntity[];
 }

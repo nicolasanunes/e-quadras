@@ -16,6 +16,8 @@ import { Roles } from 'src/decorators/role.decorator';
 import { UserTypeEnum } from 'src/users/enums/user-type.enum';
 import { UserId } from 'src/decorators/user-id.decorator';
 import { CreateSportsCourtDto } from './dto/create-sports-court.dto';
+import { CreateExtraScheduleDto } from './dto/create-extra-schedule.dto';
+import { ListExtraScheduleDto } from './dto/list-extra-schedule.dto';
 
 @Controller('sports-court')
 export class SportsCourtController {
@@ -45,5 +47,23 @@ export class SportsCourtController {
   @Delete(':id')
   deleteSportsCourt(@Param('id') id: number): Promise<object> {
     return this.sportsCourtService.deleteSportsCourt(id);
+  }
+
+  @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
+  @UsePipes(ValidationPipe)
+  @Post('/extra-schedule')
+  createExtraSchedule(@Body() body: CreateExtraScheduleDto): Promise<object> {
+    return this.sportsCourtService.createExtraSchedule(body);
+  }
+
+  @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
+  @UsePipes(ValidationPipe)
+  @Get('/extra-schedule/:id')
+  async listExtraScheduleBySportsCourtId(
+    @Param('id') sportsCourtId: number,
+  ): Promise<ListExtraScheduleDto[]> {
+    return await this.sportsCourtService.listExtraScheduleBySportsCourtId(
+      sportsCourtId,
+    );
   }
 }

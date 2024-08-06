@@ -34,6 +34,6 @@ export class UserEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToMany(() => SportsCourtEntity, (sportsCourt) => sportsCourt.userId)
-  sportsCourt: SportsCourtEntity[];
+  @OneToMany(() => SportsCourtEntity, (sportsCourt) => sportsCourt.user)
+  sportsCourts: SportsCourtEntity[];
 }

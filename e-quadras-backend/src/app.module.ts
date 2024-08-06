@@ -12,7 +12,7 @@ import { RolesGuard } from './guards/role.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { CompanyModule } from './companies/company.module';
 import { CompanyEntity } from './companies/entities/company.entity';
-import { LocationEntity } from './sports-courts/entities/location.entity';
+import { LocationEntity } from './companies/entities/location.entity';
 
 @Module({
   imports: [

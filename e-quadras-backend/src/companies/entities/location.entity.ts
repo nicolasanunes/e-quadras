@@ -6,7 +6,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { SportsCourtEntity } from './sports-court.entity';
+import { SportsCourtEntity } from '../../sports-courts/entities/sports-court.entity';
+import { CompanyEntity } from './company.entity';
 
 @Entity({ name: 'location' })
 export class LocationEntity {
@@ -37,6 +38,6 @@ export class LocationEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToOne(() => SportsCourtEntity, (sportsCourt) => sportsCourt.locationId)
+  @OneToOne(() => CompanyEntity, (company) => company.location)
   sportsCourt: SportsCourtEntity;
 }

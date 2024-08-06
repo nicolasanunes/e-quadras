@@ -22,9 +22,7 @@ export class CompanyController {
   @Roles(UserTypeEnum.Root)
   @UsePipes(ValidationPipe)
   @Post()
-  createCompany(
-    @Body() createCompany: CreateCompanyDto,
-  ): Promise<CreateCompanyDto> {
+  createCompany(@Body() createCompany: CreateCompanyDto): Promise<object> {
     return this.companyService.createCompany(createCompany);
   }
 

@@ -6,10 +6,11 @@ export class CreateTableDayOfWeek1722256302504 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
             CREATE TABLE public.day_of_week (
-              "id" SERIAL PRIMARY KEY,
-              "day_name" VARCHAR(255) NOT NULL,
-              "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-              "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+              id SERIAL PRIMARY KEY,
+              day_name VARCHAR(255) NOT NULL,
+              created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              CONSTRAINT UQ_day_of_week_day_name UNIQUE (day_name)
             );
           `);
   }
