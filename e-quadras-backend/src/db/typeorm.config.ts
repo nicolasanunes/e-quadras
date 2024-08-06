@@ -13,6 +13,7 @@ import { AlterTableTimeOfDay1722290001011 } from '../migrations/1722290001011-al
 import { CreateTableExtraSchedules1722347325255 } from '../migrations/1722347325255-create-table-extra-schedules';
 import { CreateTableInativeSchedules1722949040775 } from '../migrations/1722949040775-create-table-inative-schedules';
 import { CreateTableCustomer1722959015395 } from '../migrations/1722959015395-create-table-customer';
+import { CreateTableScheduleAppointment1722961409070 } from '../migrations/1722961409070-create-table-schedule-appointment';
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ export default new DataSource({
     CreateTableExtraSchedules1722347325255,
     CreateTableInativeSchedules1722949040775,
     CreateTableCustomer1722959015395,
+    CreateTableScheduleAppointment1722961409070,
   ],
   //migrationsRun: true,
 });

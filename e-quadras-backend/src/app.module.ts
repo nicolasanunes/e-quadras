@@ -14,7 +14,9 @@ import { CompanyModule } from './companies/company.module';
 import { CompanyEntity } from './companies/entities/company.entity';
 import { LocationEntity } from './companies/entities/location.entity';
 import { CustomerEntity } from './customers/entities/customer.entity';
-import { CustomerModuler } from './customers/customer.module';
+import { CustomerModule } from './customers/customer.module';
+import { ScheduleAppointmentModule } from './schedules-appointments/schedule-appointment.module';
+import { ScheduleAppointmentEntity } from './schedules-appointments/entities/schedule-appointment.entity';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { CustomerModuler } from './customers/customer.module';
       LocationEntity,
       UserEntity,
       CustomerEntity,
+      ScheduleAppointmentEntity,
     ]),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -37,7 +40,8 @@ import { CustomerModuler } from './customers/customer.module';
     JwtModule,
     UserModule,
     CompanyModule,
-    CustomerModuler,
+    CustomerModule,
+    ScheduleAppointmentModule,
   ],
   controllers: [],
   providers: [

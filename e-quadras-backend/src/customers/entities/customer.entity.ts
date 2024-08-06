@@ -1,7 +1,9 @@
+import { ScheduleAppointmentEntity } from 'src/schedules-appointments/entities/schedule-appointment.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,4 +27,10 @@ export class CustomerEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(
+    () => ScheduleAppointmentEntity,
+    (scheduleAppointment) => scheduleAppointment.customer,
+  )
+  scheduleAppointments: ScheduleAppointmentEntity[];
 }

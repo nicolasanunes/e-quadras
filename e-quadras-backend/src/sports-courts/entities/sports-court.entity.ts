@@ -15,6 +15,7 @@ import { DayOfWeekEntity } from './day-of-week.entity';
 import { TimeOfDayEntity } from './time-of-day.entity';
 import { ExtraScheduleEntity } from './extra-schedule.entity';
 import { InativeScheduleEntity } from './inative-schedule.entity';
+import { ScheduleAppointmentEntity } from 'src/schedules-appointments/entities/schedule-appointment.entity';
 
 @Entity({ name: 'sports_court' })
 export class SportsCourtEntity {
@@ -82,4 +83,10 @@ export class SportsCourtEntity {
     (inativeSchedules) => inativeSchedules.sportsCourt,
   )
   inativeSchedules: InativeScheduleEntity[];
+
+  @OneToMany(
+    () => ScheduleAppointmentEntity,
+    (scheduleAppointment) => scheduleAppointment.sportsCourt,
+  )
+  scheduleAppointments: ScheduleAppointmentEntity[];
 }
