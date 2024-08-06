@@ -7,6 +7,7 @@ import { CustomerEntity } from 'src/customers/entities/customer.entity';
 import { SportsCourtEntity } from 'src/sports-courts/entities/sports-court.entity';
 import { TimeOfDayEntity } from 'src/sports-courts/entities/time-of-day.entity';
 import { DayOfWeekEntity } from 'src/sports-courts/entities/day-of-week.entity';
+import { ListScheduleAppointmentDto } from './dto/list-schedule-appointment.dto';
 
 @Injectable()
 export class ScheduleAppointmentService {
@@ -67,5 +68,16 @@ export class ScheduleAppointmentService {
     }
 
     return { message: `O agendamento foi criado!` };
+  }
+
+  listAllScheduleAppointments(): Promise<ListScheduleAppointmentDto[]> {
+    return this.scheduleAppointmentRepository.find({
+      relations: {
+        customer: true,
+        sportsCourt: true,
+        dayOfWeek: true,
+        timeOfDay: true,
+      },
+    });
   }
 }
