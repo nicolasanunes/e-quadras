@@ -5,8 +5,6 @@ import { Repository } from 'typeorm';
 import { CreateScheduleAppointmentDto } from './dto/create-schedule-appointment.dto';
 import { CustomerEntity } from 'src/customers/entities/customer.entity';
 import { SportsCourtEntity } from 'src/sports-courts/entities/sports-court.entity';
-import { TimeOfDayEntity } from 'src/sports-courts/entities/time-of-day.entity';
-import { DayOfWeekEntity } from 'src/sports-courts/entities/day-of-week.entity';
 import { ListScheduleAppointmentDto } from './dto/list-schedule-appointment.dto';
 
 @Injectable()
@@ -18,10 +16,6 @@ export class ScheduleAppointmentService {
     private readonly customerRepository: Repository<CustomerEntity>,
     @InjectRepository(SportsCourtEntity)
     private readonly sportsCourtRepository: Repository<SportsCourtEntity>,
-    @InjectRepository(DayOfWeekEntity)
-    private readonly dayOfWeekRepository: Repository<DayOfWeekEntity>,
-    @InjectRepository(TimeOfDayEntity)
-    private readonly timeOfDayRepository: Repository<TimeOfDayEntity>,
   ) {}
 
   async createScheduleAppointment(
@@ -35,24 +29,13 @@ export class ScheduleAppointmentService {
       where: { id: body.sportsCourt },
     });
 
-    const dayOfWeek = await this.dayOfWeekRepository.findOne({
-      where: { id: body.dayOfWeek },
-    });
-
-    const timeOfDay = await this.timeOfDayRepository.findOne({
-      where: { id: body.timeOfDay },
-    });
-
     if (customer !== null) {
       await this.scheduleAppointmentRepository.save({
+        dateTimeSchedule: body.dateTimeSchedule,
         customer: customer,
         sportsCourt: sportsCourt,
-        dayOfWeek: dayOfWeek,
-        timeOfDay: timeOfDay,
       });
-      console.log('saiu do if');
     } else {
-      console.log('entrou no else');
       customer = await this.customerRepository.save({
         name: body.customer.name,
         email: body.customer.email,
@@ -60,10 +43,9 @@ export class ScheduleAppointmentService {
       });
 
       await this.scheduleAppointmentRepository.save({
+        dateTimeSchedule: body.dateTimeSchedule,
         customer: customer,
         sportsCourt: sportsCourt,
-        dayOfWeek: dayOfWeek,
-        timeOfDay: timeOfDay,
       });
     }
 
@@ -75,8 +57,6 @@ export class ScheduleAppointmentService {
       relations: {
         customer: true,
         sportsCourt: true,
-        dayOfWeek: true,
-        timeOfDay: true,
       },
     });
   }

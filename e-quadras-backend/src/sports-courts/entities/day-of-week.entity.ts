@@ -3,14 +3,10 @@ import {
   CreateDateColumn,
   Entity,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { SportsCourtEntity } from './sports-court.entity';
-import { ExtraScheduleEntity } from './extra-schedule.entity';
-import { InativeScheduleEntity } from './inative-schedule.entity';
-import { ScheduleAppointmentEntity } from 'src/schedules-appointments/entities/schedule-appointment.entity';
 
 @Entity({ name: 'day_of_week' })
 export class DayOfWeekEntity {
@@ -28,22 +24,4 @@ export class DayOfWeekEntity {
 
   @ManyToMany(() => SportsCourtEntity, (sportsCourt) => sportsCourt.daysOfWeek)
   sportsCourts: SportsCourtEntity[];
-
-  @OneToMany(
-    () => ExtraScheduleEntity,
-    (extraSchedules) => extraSchedules.dayOfWeek,
-  )
-  extraSchedules: ExtraScheduleEntity[];
-
-  @OneToMany(
-    () => InativeScheduleEntity,
-    (inativeSchedules) => inativeSchedules.dayOfWeek,
-  )
-  inativeSchedules: InativeScheduleEntity[];
-
-  @OneToMany(
-    () => ScheduleAppointmentEntity,
-    (scheduleAppointments) => scheduleAppointments.dayOfWeek,
-  )
-  scheduleAppointments: ScheduleAppointmentEntity[];
 }

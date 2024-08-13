@@ -3,9 +3,6 @@ export class CreateExtraScheduleDto {
 }
 
 export class CreateEachExtraScheduleDto {
+  dateTimeExtraSchedule: Date;
   sportsCourt: number;
-
-  dayOfWeek: number;
-
-  timeOfDay: number;
 }

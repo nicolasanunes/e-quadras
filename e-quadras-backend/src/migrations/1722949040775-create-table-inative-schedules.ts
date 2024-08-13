@@ -9,12 +9,11 @@ export class CreateTableInativeSchedules1722949040775
     await queryRunner.query(`
         CREATE TABLE public.inative_schedule (
           id SERIAL PRIMARY KEY,
+          date_time_inative_schedule TIMESTAMP NOT NULL,
           sports_court_id INTEGER NOT NULL,
-          day_of_week_id INTEGER NOT NULL,
-          time_of_day_id INTEGER NOT NULL,
-          CONSTRAINT FK_extra_schedule_sports_court_id FOREIGN KEY (sports_court_id) REFERENCES public.sports_court(id) ON DELETE CASCADE,
-          CONSTRAINT FK_extra_schedule_day_of_week_id FOREIGN KEY (day_of_week_id) REFERENCES public.day_of_week(id),
-          CONSTRAINT FK_extra_schedule_time_of_day_id FOREIGN KEY (time_of_day_id) REFERENCES public.time_of_day(id)
+          created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          CONSTRAINT FK_inative_schedule_sports_court_id FOREIGN KEY (sports_court_id) REFERENCES public.sports_court(id) ON DELETE CASCADE
         );
       `);
   }

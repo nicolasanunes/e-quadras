@@ -88,18 +88,9 @@ export class SportsCourtService {
         where: { id: extraSchedule.sportsCourt },
       });
 
-      const dayOfWeek = await this.dayOfWeekRepository.findOne({
-        where: { id: extraSchedule.dayOfWeek },
-      });
-
-      const timeOfDay = await this.timeOfDayRepository.findOne({
-        where: { id: extraSchedule.timeOfDay },
-      });
-
       await this.extraScheduleRepository.save({
+        dateTimeExtraSchedule: extraSchedule.dateTimeExtraSchedule,
         sportsCourt: sportsCourt,
-        dayOfWeek: dayOfWeek,
-        timeOfDay: timeOfDay,
       });
     });
 
@@ -118,8 +109,6 @@ export class SportsCourtService {
       where: { sportsCourt: { id: sportsCourt.id } },
       relations: {
         sportsCourt: true,
-        dayOfWeek: true,
-        timeOfDay: true,
       },
     });
   }
@@ -131,18 +120,9 @@ export class SportsCourtService {
         where: { id: inativeSchedule.sportsCourt },
       });
 
-      const dayOfWeek = await this.dayOfWeekRepository.findOne({
-        where: { id: inativeSchedule.dayOfWeek },
-      });
-
-      const timeOfDay = await this.timeOfDayRepository.findOne({
-        where: { id: inativeSchedule.timeOfDay },
-      });
-
       await this.inativeScheduleRepository.save({
+        dateTimeInativeSchedule: inativeSchedule.dateTimeInativeSchedule,
         sportsCourt: sportsCourt,
-        dayOfWeek: dayOfWeek,
-        timeOfDay: timeOfDay,
       });
     });
 
@@ -161,8 +141,6 @@ export class SportsCourtService {
       where: { sportsCourt: { id: sportsCourt.id } },
       relations: {
         sportsCourt: true,
-        dayOfWeek: true,
-        timeOfDay: true,
       },
     });
   }

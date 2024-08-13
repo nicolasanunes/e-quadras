@@ -3,9 +3,6 @@ export class CreateInativeScheduleDto {
 }
 
 export class CreateEachInativeScheduleDto {
+  dateTimeInativeSchedule: Date;
   sportsCourt: number;
-
-  dayOfWeek: number;
-
-  timeOfDay: number;
 }

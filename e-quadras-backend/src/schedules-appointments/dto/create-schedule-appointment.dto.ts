@@ -5,9 +5,7 @@ export class CreateScheduleAppointmentDto {
   @IsNotEmpty({ message: 'O usuário não pode ser vazio!' })
   customer: CreateCustomerDto;
 
+  dateTimeSchedule: Date;
+
   sportsCourt: number;
-
-  dayOfWeek: number;
-
-  timeOfDay: number;
 }

@@ -1,12 +1,27 @@
-import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { SportsCourtEntity } from './sports-court.entity';
-import { DayOfWeekEntity } from './day-of-week.entity';
-import { TimeOfDayEntity } from './time-of-day.entity';
 
 @Entity({ name: 'inative_schedule' })
 export class InativeScheduleEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
+
+  @Column({ name: 'date_time_inative_schedule' })
+  dateTimeInativeSchedule: Date;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 
   @ManyToOne(
     () => SportsCourtEntity,
@@ -14,12 +29,4 @@ export class InativeScheduleEntity {
   )
   @JoinColumn({ name: 'sports_court_id', referencedColumnName: 'id' })
   sportsCourt: SportsCourtEntity;
-
-  @ManyToOne(() => DayOfWeekEntity, (dayOfWeek) => dayOfWeek.inativeSchedules)
-  @JoinColumn({ name: 'day_of_week_id', referencedColumnName: 'id' })
-  dayOfWeek: DayOfWeekEntity;
-
-  @ManyToOne(() => TimeOfDayEntity, (timeOfDay) => timeOfDay.inativeSchedules)
-  @JoinColumn({ name: 'time_of_day_id', referencedColumnName: 'id' })
-  timeOfDay: TimeOfDayEntity;
 }
