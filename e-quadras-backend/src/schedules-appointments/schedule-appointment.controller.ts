@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -33,5 +35,12 @@ export class ScheduleAppointmentController {
     return (
       await this.scheduleAppointmentService.listAllScheduleAppointments()
     ).map((scheduleAppointment) => scheduleAppointment);
+  }
+
+  @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
+  @UsePipes(ValidationPipe)
+  @Delete(':id')
+  deleteScheduleAppointmentById(@Param('id') id: number): Promise<object> {
+    return this.scheduleAppointmentService.deleteScheduleAppointmentById(id);
   }
 }

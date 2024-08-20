@@ -68,7 +68,7 @@ export class SportsCourtService {
     });
   }
 
-  async deleteSportsCourt(id: number): Promise<object> {
+  async deleteSportsCourtById(id: number): Promise<object> {
     const deletedSportsCourt = await this.sportsCourtRepository.findOne({
       where: { id: id },
     });

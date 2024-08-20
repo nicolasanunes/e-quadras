@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ScheduleAppointmentEntity } from './entities/schedule-appointment.entity';
 import { Repository } from 'typeorm';
@@ -59,5 +59,21 @@ export class ScheduleAppointmentService {
         sportsCourt: true,
       },
     });
+  }
+
+  async deleteScheduleAppointmentById(id: number): Promise<object> {
+    const deletedScheduleAppointment =
+      await this.scheduleAppointmentRepository.findOne({
+        where: { id: id },
+      });
+
+    if (deletedScheduleAppointment !== null) {
+      this.scheduleAppointmentRepository.delete(id);
+      return {
+        message: `A agendamento foi excluído!`,
+      };
+    } else {
+      throw new NotFoundException('O agendamento não foi encontrado!');
+    }
   }
 }
