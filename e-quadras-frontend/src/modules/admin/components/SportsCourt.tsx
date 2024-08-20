@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react';
 
-import { URL_USER } from '../../../shared/constants/urls';
+import { URL_SPORTS_COURT } from '../../../shared/constants/urls';
 import useRequest from '../../../shared/hooks/useRequest';
-import { ProfileType } from '../../../shared/types/ProfileType';
+import { SportsCourtType } from '../../../shared/types/SportsCourtType';
 
-const Profile = () => {
-  const [data, setData] = useState<ProfileType[]>([] as ProfileType[]);
+const SportsCourt = () => {
+  const [data, setData] = useState<SportsCourtType[]>([] as SportsCourtType[]);
   const { getRequest } = useRequest();
 
   useEffect(() => {
-    getRequest(URL_USER).then((data) => setData(() => data as ProfileType[]));
+    getRequest(URL_SPORTS_COURT).then((data) => setData(() => data as SportsCourtType[]));
   }, []);
 
   return (
     <main className="flex flex-col w-screen">
       <ul>
-        {data.map((profile) => (
-          <li key={profile.id}>
+        {data.map((sportsCourt) => (
+          <li key={sportsCourt.id}>
             <div className="relative flex my-1 mx-1 px-3 py-1 border border-gray-50 bg-gray-800 opacity-100 hover:text-gray-100 hover:opacity-85">
               <div className="">
-                <p className="font-normal text-gray-100">Nome: {profile.name}</p>
-                <p className="font-normal text-gray-100">E-mail: {profile.email}</p>
-                <p className="font-normal text-gray-100">Telefone: {profile.phone}</p>
+                <p className="font-normal text-gray-100">Quadra: {sportsCourt.name}</p>
+                <p className="font-normal text-gray-100">Modalide: {sportsCourt.modality}</p>
+                <p className="font-normal text-gray-100">Preço: {sportsCourt.price}</p>
               </div>
               <i className="absolute right-2 top-1 cursor-pointer" aria-hidden="true">
                 <svg
@@ -59,4 +59,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default SportsCourt;

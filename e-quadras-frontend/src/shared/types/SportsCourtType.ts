@@ -1,6 +1,8 @@
 //import { ObjectId } from 'typeorm/browser';
 
 export interface SportsCourtType {
-  _id: string;
+  id: string;
   name: string;
+  modality: string;
+  price: number;
 }

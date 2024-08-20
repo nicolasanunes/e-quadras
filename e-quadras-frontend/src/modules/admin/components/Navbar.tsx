@@ -10,11 +10,11 @@ import {
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
-import Appointments from './Appointments';
+import Appointment from './Appointment';
 import Company from './Company';
 import Logout from './Logout';
 import Profile from './Profile';
-import SportsCourtList from './SportsCourtList';
+import SportsCourt from './SportsCourt';
 
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState('agendamentos');
@@ -135,8 +135,8 @@ const Navbar = () => {
         </DisclosurePanel>
       </Disclosure>
 
-      {activeTab === 'agendamentos' && <Appointments />}
-      {activeTab === 'quadras' && <SportsCourtList />}
+      {activeTab === 'agendamentos' && <Appointment />}
+      {activeTab === 'quadras' && <SportsCourt />}
       {activeTab === 'empresa' && <Company />}
 
       {activeTab === 'perfil' && <Profile />}
