@@ -10,7 +10,10 @@ import {
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
-import Scheduling from './Scheduling';
+import Appointments from './Appointments';
+import Company from './Company';
+import Logout from './Logout';
+import Profile from './Profile';
 import SportsCourtList from './SportsCourtList';
 
 const Navbar = () => {
@@ -94,18 +97,14 @@ const Navbar = () => {
                   <MenuItem>
                     <a
                       href="#"
+                      onClick={() => handleTabChange('perfil')}
                       className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                     >
                       Seu perfil
                     </a>
                   </MenuItem>
                   <MenuItem>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                    >
-                      Logout
-                    </a>
+                    <Logout />
                   </MenuItem>
                 </MenuItems>
               </Menu>
@@ -136,8 +135,11 @@ const Navbar = () => {
         </DisclosurePanel>
       </Disclosure>
 
-      {activeTab === 'agendamentos' && <Scheduling />}
+      {activeTab === 'agendamentos' && <Appointments />}
       {activeTab === 'quadras' && <SportsCourtList />}
+      {activeTab === 'empresa' && <Company />}
+
+      {activeTab === 'perfil' && <Profile />}
     </div>
   );
 };

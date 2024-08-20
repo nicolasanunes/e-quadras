@@ -21,7 +21,7 @@ interface DataType {
   sportsCourt: SportsCourtType;
 }
 
-const Scheduling = () => {
+const Appointments = () => {
   const [data, setData] = useState<DataType[]>([] as DataType[]);
   const { getRequest } = useRequest();
 
@@ -47,4 +47,4 @@ const Scheduling = () => {
   );
 };
 
-export default Scheduling;
+export default Appointments;

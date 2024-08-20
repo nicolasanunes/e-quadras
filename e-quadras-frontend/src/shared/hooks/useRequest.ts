@@ -49,7 +49,7 @@ function useRequest() {
       .then((result) => {
         setUser(result.user);
         setAuthorizationToken(result.accessToken);
-        window.location.href = '/sports-court';
+        window.location.href = '/admin';
         return result;
       })
       .catch(() => {
