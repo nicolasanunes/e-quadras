@@ -28,7 +28,7 @@ export class ScheduleAppointmentController {
     return this.scheduleAppointmentService.createScheduleAppointment(body);
   }
 
-  @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
+  // @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Get()
   async listAllScheduleAppointments(): Promise<ListScheduleAppointmentDto[]> {

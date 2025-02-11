@@ -9,7 +9,6 @@ export class CreateTableCustomer1722959015395 implements MigrationInterface {
           id SERIAL PRIMARY KEY,
           name VARCHAR(255) NOT NULL,
           phone VARCHAR(20) NOT NULL,
-          email VARCHAR(255) NOT NULL,
           created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );

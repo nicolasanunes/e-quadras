@@ -13,6 +13,7 @@ import { ListExtraScheduleDto } from './dto/list-extra-schedule.dto';
 import { CreateInativeScheduleDto } from './dto/create-inative-schedule.dto';
 import { InativeScheduleEntity } from './entities/inative-schedule.entity';
 import { ListInativeScheduleDto } from './dto/list-inative-schedule.dto';
+import { ScheduleAppointmentEntity } from 'src/schedules-appointments/entities/schedule-appointment.entity';
 
 @Injectable()
 export class SportsCourtService {
@@ -25,6 +26,8 @@ export class SportsCourtService {
     private readonly dayOfWeekRepository: Repository<DayOfWeekEntity>,
     @InjectRepository(TimeOfDayEntity)
     private readonly timeOfDayRepository: Repository<TimeOfDayEntity>,
+    @InjectRepository(ScheduleAppointmentEntity)
+    private readonly scheduleAppointmentRepository: Repository<ScheduleAppointmentEntity>,
     @InjectRepository(ExtraScheduleEntity)
     private readonly extraScheduleRepository: Repository<ExtraScheduleEntity>,
     @InjectRepository(InativeScheduleEntity)
@@ -79,6 +82,149 @@ export class SportsCourtService {
     } else {
       throw new NotFoundException('A quadra não foi encontrada!');
     }
+  }
+
+  async listAvailableScheduleBySportsCourtIdAndSelectedDate(
+    id: number,
+    selectedDate: Date,
+  ): Promise<object> {
+    const sportsCourt = await this.sportsCourtRepository.findOne({
+      where: { id: id },
+      relations: {
+        user: true,
+        daysOfWeek: true,
+        timesOfDay: true,
+      },
+    });
+
+    const selectedWeekDay = selectedDate.toLocaleDateString('pt-BR', {
+      weekday: 'long',
+    });
+
+    const isWeekDayAvailable: boolean = sportsCourt.daysOfWeek.some(
+      (dayOfWeek) => dayOfWeek.dayName === selectedWeekDay,
+    );
+
+    const extraSchedules = await this.listExtraScheduleBySportsCourtId(id);
+
+    const scheduleAppointments = await this.scheduleAppointmentRepository.find({
+      where: { sportsCourt: { id: sportsCourt.id } },
+    });
+
+    if (!isWeekDayAvailable) {
+      const matchingExtraSchedules = extraSchedules.filter((extraSchedule) => {
+        const extraScheduleDate = new Date(
+          extraSchedule.dateTimeExtraSchedule.getFullYear(),
+          extraSchedule.dateTimeExtraSchedule.getMonth(),
+          extraSchedule.dateTimeExtraSchedule.getDate(),
+        );
+
+        return (
+          extraScheduleDate.getFullYear() === selectedDate.getFullYear() &&
+          extraScheduleDate.getMonth() === selectedDate.getMonth() &&
+          extraScheduleDate.getDate() === selectedDate.getDate()
+        );
+      });
+
+      const filteredSchedules = matchingExtraSchedules.filter(
+        (extraSchedule) => {
+          return !scheduleAppointments.some((scheduleAppointment) => {
+            return (
+              extraSchedule.dateTimeExtraSchedule.getTime() ===
+              scheduleAppointment.dateTimeSchedule.getTime()
+            );
+          });
+        },
+      );
+
+      const availableSchedules = filteredSchedules.map((extraSchedule) => {
+        const timeOfDay =
+          extraSchedule.dateTimeExtraSchedule.toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+          });
+
+        return {
+          timeOfDay,
+        };
+      });
+
+      availableSchedules.sort((a, b) => a.timeOfDay.localeCompare(b.timeOfDay));
+
+      return availableSchedules;
+    }
+
+    const inativeSchedules = await this.listInativeScheduleBySportsCourtId(id);
+    console.log('inativeSchedules', inativeSchedules);
+
+    const filteredExtraSchedules = extraSchedules.filter((extraSchedule) => {
+      const extraScheduleDate = new Date(
+        extraSchedule.dateTimeExtraSchedule.getFullYear(),
+        extraSchedule.dateTimeExtraSchedule.getMonth(),
+        extraSchedule.dateTimeExtraSchedule.getDate(),
+      );
+
+      return (
+        extraScheduleDate.getFullYear() === selectedDate.getFullYear() &&
+        extraScheduleDate.getMonth() === selectedDate.getMonth() &&
+        extraScheduleDate.getDate() === selectedDate.getDate()
+      );
+    });
+
+    const extraScheduleTimes = filteredExtraSchedules.map((extraSchedule) => {
+      return extraSchedule.dateTimeExtraSchedule.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+      });
+    });
+
+    let availableSchedules = [
+      ...sportsCourt.timesOfDay.map((timeOfDay) => timeOfDay.dayHour),
+      ...extraScheduleTimes,
+    ];
+
+    const inativeScheduleTimes = inativeSchedules.map((inativeSchedule) => {
+      return inativeSchedule.dateTimeInativeSchedule.toLocaleTimeString(
+        'pt-BR',
+        {
+          hour: '2-digit',
+        },
+      );
+    });
+
+    const scheduleAppointmentTimes = scheduleAppointments
+      .filter((appointment) => {
+        const appointmentDate = new Date(
+          appointment.dateTimeSchedule.getFullYear(),
+          appointment.dateTimeSchedule.getMonth(),
+          appointment.dateTimeSchedule.getDate(),
+        );
+
+        return (
+          appointmentDate.getFullYear() === selectedDate.getFullYear() &&
+          appointmentDate.getMonth() === selectedDate.getMonth() &&
+          appointmentDate.getDate() === selectedDate.getDate()
+        );
+      })
+      .map((appointment) => {
+        return appointment.dateTimeSchedule.toLocaleTimeString('pt-BR', {
+          hour: '2-digit',
+        });
+      });
+
+    availableSchedules = availableSchedules.filter(
+      (time) =>
+        !inativeScheduleTimes.includes(time.toString()) &&
+        !scheduleAppointmentTimes.includes(time.toString()),
+    );
+
+    const formattedAvailableSchedules = availableSchedules.map((timeOfDay) => ({
+      timeOfDay: timeOfDay.toString(),
+    }));
+
+    formattedAvailableSchedules.sort((a, b) =>
+      a.timeOfDay.localeCompare(b.timeOfDay),
+    );
+
+    return formattedAvailableSchedules;
   }
 
   // Criar horário extra

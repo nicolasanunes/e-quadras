@@ -8,6 +8,7 @@ import { DayOfWeekEntity } from './entities/day-of-week.entity';
 import { TimeOfDayEntity } from './entities/time-of-day.entity';
 import { ExtraScheduleEntity } from './entities/extra-schedule.entity';
 import { InativeScheduleEntity } from './entities/inative-schedule.entity';
+import { ScheduleAppointmentEntity } from 'src/schedules-appointments/entities/schedule-appointment.entity';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { InativeScheduleEntity } from './entities/inative-schedule.entity';
       UserEntity,
       DayOfWeekEntity,
       TimeOfDayEntity,
+      ScheduleAppointmentEntity,
       ExtraScheduleEntity,
       InativeScheduleEntity,
     ]),

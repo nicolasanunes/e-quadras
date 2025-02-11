@@ -16,9 +16,6 @@ export class CustomerEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
-  @Column({ name: 'email', nullable: false })
-  email: string;
-
   @Column({ name: 'phone', nullable: false })
   phone: string;
 

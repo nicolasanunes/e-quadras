@@ -35,7 +35,7 @@ export class SportsCourtController {
     return this.sportsCourtService.createSportsCourt(body, userId);
   }
 
-  @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
+  // @Roles(UserTypeEnum.Root, UserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Get()
   async listAllSportsCourts(): Promise<ListSportsCourtDto[]> {
@@ -66,6 +66,19 @@ export class SportsCourtController {
   ): Promise<ListExtraScheduleDto[]> {
     return await this.sportsCourtService.listExtraScheduleBySportsCourtId(
       sportsCourtId,
+    );
+  }
+
+  @UsePipes(ValidationPipe)
+  @Get('available-schedule/:id/:selectedDate')
+  async listAvailableScheduleBySportsCourtIdAndSelectedDate(
+    @Param('id') sportsCourtId: number,
+    @Param('selectedDate') selectedDate: Date,
+  ) {
+    const selectedDateFormatted = new Date(selectedDate);
+    return await this.sportsCourtService.listAvailableScheduleBySportsCourtIdAndSelectedDate(
+      sportsCourtId,
+      selectedDateFormatted,
     );
   }
 

@@ -1,25 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="" class="overflow-y-auto">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" href="/public/icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>eQuadras</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="src/assets/css/style.css">
-    <link rel="stylesheet" href="src/assets/bootstrap/css/bootstrap.css">
-    <link href="./src/assets/css/output.css" rel="stylesheet">
+    <title></title>
   </head>
-  <header>
-    
-  </header>
-  <body class="h-screen w-screen md:w-full lg:w-3/4 xl:w-2/3 flex flex-col">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+      import { OWNER_COMPANY_NAME } from './src/utils/constants/onwnerVariables';
+      document.title = OWNER_COMPANY_NAME;
+    </script>
+    <script type="module" src="/src/main.ts"></script>
   </body>
-  <footer>
-
-  </footer>
 </html>

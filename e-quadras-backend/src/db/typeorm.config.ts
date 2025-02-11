@@ -42,5 +42,5 @@ export default new DataSource({
     CreateTableCustomer1722959015395,
     CreateTableScheduleAppointment1722961409070,
   ],
-  //migrationsRun: true,
+  // migrationsRun: true,
 });

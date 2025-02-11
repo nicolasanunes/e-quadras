@@ -38,7 +38,6 @@ export class ScheduleAppointmentService {
     } else {
       customer = await this.customerRepository.save({
         name: body.customer.name,
-        email: body.customer.email,
         phone: body.customer.phone,
       });
 

@@ -1,0 +1,9 @@
+@use 'vuetify/settings' with (
+  // Calendar
+  $date-picker-header-height: 70px,
+  $date-picker-month-day-size: 100px,
+  $date-picker-months-grid-gap: 0px 24px,
+  $date-picker-month-btn-height: 60px,
+  $date-picker-month-btn-size: 1.2rem,
+  $date-picker-month-column-gap: 0px
+);
