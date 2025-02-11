@@ -7,6 +7,7 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -16,6 +17,7 @@ import { TimeOfDayEntity } from './time-of-day.entity';
 import { ExtraScheduleEntity } from './extra-schedule.entity';
 import { InativeScheduleEntity } from './inative-schedule.entity';
 import { ScheduleAppointmentEntity } from 'src/schedules-appointments/entities/schedule-appointment.entity';
+import { LocationEntity } from 'src/companies/entities/location.entity';
 
 @Entity({ name: 'sports_court' })
 export class SportsCourtEntity {
@@ -39,6 +41,10 @@ export class SportsCourtEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToOne(() => LocationEntity, (location) => location.sportsCourt)
+  @JoinColumn({ name: 'location_id', referencedColumnName: 'id' })
+  location: LocationEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.sportsCourts)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })

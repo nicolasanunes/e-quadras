@@ -14,7 +14,9 @@ export class CreateTableSportsCourt1722256298089 implements MigrationInterface {
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         user_id INTEGER,
-        FOREIGN KEY (user_id) REFERENCES public.user(id)
+        FOREIGN KEY (user_id) REFERENCES public.user(id),
+        location_id INTEGER,
+        FOREIGN KEY (location_id) REFERENCES public.location(id) ON DELETE CASCADE
       );
     `);
   }

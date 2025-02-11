@@ -7,7 +7,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { SportsCourtEntity } from '../../sports-courts/entities/sports-court.entity';
-import { CompanyEntity } from './company.entity';
 
 @Entity({ name: 'location' })
 export class LocationEntity {
@@ -38,6 +37,6 @@ export class LocationEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToOne(() => CompanyEntity, (company) => company.location)
+  @OneToOne(() => SportsCourtEntity, (sportsCourt) => sportsCourt.location)
   sportsCourt: SportsCourtEntity;
 }

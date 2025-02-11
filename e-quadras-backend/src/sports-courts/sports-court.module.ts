@@ -9,6 +9,7 @@ import { TimeOfDayEntity } from './entities/time-of-day.entity';
 import { ExtraScheduleEntity } from './entities/extra-schedule.entity';
 import { InativeScheduleEntity } from './entities/inative-schedule.entity';
 import { ScheduleAppointmentEntity } from 'src/schedules-appointments/entities/schedule-appointment.entity';
+import { LocationEntity } from 'src/companies/entities/location.entity';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ScheduleAppointmentEntity } from 'src/schedules-appointments/entities/s
       ScheduleAppointmentEntity,
       ExtraScheduleEntity,
       InativeScheduleEntity,
+      LocationEntity,
     ]),
   ],
   controllers: [SportsCourtController],

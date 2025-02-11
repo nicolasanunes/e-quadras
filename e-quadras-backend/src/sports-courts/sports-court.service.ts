@@ -14,6 +14,8 @@ import { CreateInativeScheduleDto } from './dto/create-inative-schedule.dto';
 import { InativeScheduleEntity } from './entities/inative-schedule.entity';
 import { ListInativeScheduleDto } from './dto/list-inative-schedule.dto';
 import { ScheduleAppointmentEntity } from 'src/schedules-appointments/entities/schedule-appointment.entity';
+import { LocationEntity } from 'src/companies/entities/location.entity';
+import { CreateLocationDto } from 'src/companies/dto/create-location.dto';
 
 @Injectable()
 export class SportsCourtService {
@@ -32,6 +34,8 @@ export class SportsCourtService {
     private readonly extraScheduleRepository: Repository<ExtraScheduleEntity>,
     @InjectRepository(InativeScheduleEntity)
     private readonly inativeScheduleRepository: Repository<InativeScheduleEntity>,
+    @InjectRepository(LocationEntity)
+    private readonly locationRepository: Repository<LocationEntity>,
   ) {}
 
   async createSportsCourt(
@@ -39,6 +43,8 @@ export class SportsCourtService {
     userId: number,
   ): Promise<object> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    const location = await this.createSportsCourtLocation(body.location);
 
     const daysOfWeek = await this.dayOfWeekRepository.findByIds(
       body.daysOfWeek,
@@ -54,6 +60,7 @@ export class SportsCourtService {
         modality: body.modality,
         price: body.price,
         user: user,
+        location: location,
         daysOfWeek: daysOfWeek,
         timesOfDay: timesOfDay,
       });
@@ -65,6 +72,7 @@ export class SportsCourtService {
     return this.sportsCourtRepository.find({
       relations: {
         user: true,
+        location: true,
         daysOfWeek: true,
         timesOfDay: true,
       },
@@ -92,6 +100,7 @@ export class SportsCourtService {
       where: { id: id },
       relations: {
         user: true,
+        location: true,
         daysOfWeek: true,
         timesOfDay: true,
       },
@@ -154,7 +163,6 @@ export class SportsCourtService {
     }
 
     const inativeSchedules = await this.listInativeScheduleBySportsCourtId(id);
-    console.log('inativeSchedules', inativeSchedules);
 
     const filteredExtraSchedules = extraSchedules.filter((extraSchedule) => {
       const extraScheduleDate = new Date(
@@ -289,5 +297,11 @@ export class SportsCourtService {
         sportsCourt: true,
       },
     });
+  }
+
+  async createSportsCourtLocation(
+    createSportsCourtLocation: CreateLocationDto,
+  ): Promise<LocationEntity> {
+    return await this.locationRepository.save(createSportsCourtLocation);
   }
 }
