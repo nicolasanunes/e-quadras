@@ -1,10 +1,42 @@
 <script setup lang="ts">
+import VActionAlert from '@/components/VActionAlert.vue';
+import VProgressCircular from '@/components/VProgressCircular.vue';
+import { useGlobalStore } from '@/stores/globalStore';
 import { OWNER_COMPANY_NAME, ONWNER_WEBSITE } from '@/utils/constants/onwnerVariables';
+import { URL_POST_AUTH_LOGIN } from '@/utils/constants/urlApi';
+import { alertMessage } from '@/utils/functions/alertMessage';
+import useRequest from '@/utils/functions/connection/useRequest';
+import type { AxiosResponse } from 'axios';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const email = ref(undefined)
-const password = ref(undefined)
+const globalStore = useGlobalStore()
+
+const { postRequest } = useRequest()
+
+const router = useRouter()
+
+const email = ref<string | undefined>(undefined)
+const password = ref<string | undefined>(undefined)
 const visible = ref<boolean>(false)
+
+const handleLogin = async (email: string, password: string) => {
+  const response: AxiosResponse | undefined = await postRequest(
+    URL_POST_AUTH_LOGIN,
+    { email, password },
+    { headers: { 'Content-Type': 'application/json' } },
+  )
+
+  if (response) {
+    localStorage.setItem('token', response.data.accessToken)
+
+    globalStore.isAuthenticated = true
+
+    alertMessage('Login realizado com sucesso!')
+
+    router.push({ path: '/admin' })
+  }
+}
 </script>
 
 <template>
@@ -51,7 +83,10 @@ const visible = ref<boolean>(false)
                   >
                 </template>
               </v-text-field>
-              <v-btn rounded="pill" class="w-100 gradient-background">Entrar</v-btn>
+              <v-btn v-if="!globalStore.loading" rounded="pill" class="w-100 gradient-background" @click="handleLogin(email, password)">Entrar</v-btn>
+              <v-btn v-if="globalStore.loading" class="w-100 gradient-background">
+                <VProgressCircular />
+              </v-btn>
             </v-form>
           </v-sheet>
         </v-col>
@@ -66,6 +101,7 @@ const visible = ref<boolean>(false)
         </v-col>
     </v-row>
   </v-container>
+  <VActionAlert v-if="globalStore.alert.isActive" :text="globalStore.alert.text" :type="globalStore.alert.type" />
 </template>
 
 <style>

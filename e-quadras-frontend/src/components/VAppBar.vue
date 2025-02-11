@@ -1,10 +1,17 @@
 <script setup lang="ts">
+import { useGlobalStore } from '@/stores/globalStore';
 import { CLIENT_LOGO_PATH } from '@/utils/constants/clientVariables';
 import { useRouter } from 'vue-router';
+
+const globalStore = useGlobalStore()
 
 const router = useRouter()
 
 const handleLogout = () => {
+  localStorage.removeItem('token')
+
+  globalStore.isAuthenticated = false
+
   router.push({ path: '/login' })
 }
 </script>

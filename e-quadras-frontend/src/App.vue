@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import VFooter from '@/components/VFooter.vue';
 import VAppBar from '@/components/VAppBar.vue';
+import { useGlobalStore } from './stores/globalStore';
+
+const globalStore = useGlobalStore()
+
+globalStore.initializeAuth()
 </script>
 
 <template>
