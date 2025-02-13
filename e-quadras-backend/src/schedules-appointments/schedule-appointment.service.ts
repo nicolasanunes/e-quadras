@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ScheduleAppointmentEntity } from './entities/schedule-appointment.entity';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { CreateScheduleAppointmentDto } from './dto/create-schedule-appointment.dto';
 import { CustomerEntity } from 'src/customers/entities/customer.entity';
 import { SportsCourtEntity } from 'src/sports-courts/entities/sports-court.entity';
@@ -53,6 +53,23 @@ export class ScheduleAppointmentService {
 
   listAllScheduleAppointments(): Promise<ListScheduleAppointmentDto[]> {
     return this.scheduleAppointmentRepository.find({
+      relations: {
+        customer: true,
+        sportsCourt: true,
+      },
+    });
+  }
+
+  getAllUpcomingSchedules(): Promise<ListScheduleAppointmentDto[]> {
+    const currentDate = new Date();
+
+    return this.scheduleAppointmentRepository.find({
+      where: {
+        dateTimeSchedule: MoreThan(currentDate),
+      },
+      order: {
+        dateTimeSchedule: 'ASC',
+      },
       relations: {
         customer: true,
         sportsCourt: true,

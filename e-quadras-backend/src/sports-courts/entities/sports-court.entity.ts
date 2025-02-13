@@ -27,8 +27,8 @@ export class SportsCourtEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
-  @Column({ name: 'modality', nullable: false })
-  modality: string;
+  @Column({ name: 'modality', type: 'simple-array', nullable: false })
+  modality: string[];
 
   @Column({ name: 'price', nullable: false })
   price: number;

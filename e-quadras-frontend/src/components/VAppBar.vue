@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useGlobalStore } from '@/stores/globalStore';
-import { CLIENT_LOGO_PATH } from '@/utils/constants/clientVariables';
-import { useRouter } from 'vue-router';
+import { useGlobalStore } from '@/stores/globalStore'
+import { CLIENT_LOGO_PATH } from '@/utils/constants/clientVariables'
+import { useRouter } from 'vue-router'
 
 const globalStore = useGlobalStore()
 
 const router = useRouter()
 
 const handleLogout = () => {
-  localStorage.removeItem('token')
+  sessionStorage.removeItem('token')
 
   globalStore.isAuthenticated = false
 
@@ -20,11 +20,7 @@ const handleLogout = () => {
   <v-app-bar app color="terciary" elevation="12">
     <div class="h-75 align-center ml-16">
       <router-link to="/" class="">
-        <img
-          class="h-100 w-auto"
-          :src="CLIENT_LOGO_PATH"
-          alt="logo"
-        />
+        <img class="h-100 w-auto" :src="CLIENT_LOGO_PATH" alt="logo" />
       </router-link>
     </div>
     <v-spacer></v-spacer>

@@ -8,7 +8,7 @@ import { ListLocationDto } from 'src/companies/dto/list-location.dto';
 
 export class ListSportsCourtDto {
   name: string;
-  modality: string;
+  modality: string[];
   price: number;
   isActive: boolean;
   user: ListUserDto;

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { CLIENT_COMPANY_NAME } from '@/utils/constants/clientVariables'
-import { URL_GET_SPORTS_COURTS, URL_GET_AVAILABLE_SCHEDULES, URL_POST_SCHEDULE_APPOINTMENT } from '@/utils/constants/urlApi'
+import {
+  URL_GET_SPORTS_COURTS,
+  URL_GET_AVAILABLE_SCHEDULES,
+  URL_POST_SCHEDULE_APPOINTMENT,
+} from '@/utils/constants/urlApi'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
@@ -50,13 +54,13 @@ const handleScheduleAppointment = async () => {
   }
 
   const formData = {
-    'dateTimeSchedule': dateTimeSchedule(),
-    'customer': {
-      'name': name.value,
-      'email': email.value,
-      'phone': phone.value,
+    dateTimeSchedule: dateTimeSchedule(),
+    customer: {
+      name: name.value,
+      email: email.value,
+      phone: phone.value,
     },
-    'sportsCourt': selectedSportsCourtId.value,
+    sportsCourt: selectedSportsCourtId.value,
   }
 
   await createScheduleAppointment(formData)
@@ -66,7 +70,6 @@ onMounted(async () => {
   sportsCourtsList.value = await getAllSportsCourts()
   console.log('sportsCourtsList:', sportsCourtsList.value)
 })
-
 </script>
 
 <template>
@@ -96,42 +99,35 @@ onMounted(async () => {
         <v-sheet v-if="selectedDate !== undefined" class="bg-green">
           <p>Selecione uma quadra:</p>
           <v-select
-              color="primary"
-              variant="underlined"
-              :items="sportsCourtsList"
-              item-title="name"
-              item-value="id"
-              label="Selecione a quadra..."
-              v-model="selectedSportsCourtId"
-            >
-              <template v-slot:item="{ props, item }">
-                <v-list-item
-                  v-bind="props"
-                  :subtitle="item.raw.modality"
-                ></v-list-item>
-              </template>
-            </v-select>
+            color="primary"
+            variant="underlined"
+            :items="sportsCourtsList"
+            item-title="name"
+            item-value="id"
+            label="Selecione a quadra..."
+            v-model="selectedSportsCourtId"
+          >
+            <template v-slot:item="{ props, item }">
+              <v-list-item v-bind="props" :subtitle="item.raw.modality"></v-list-item>
+            </template>
+          </v-select>
 
-            <v-btn @click="handleSelectedSportsCourt">Clica aqui pra ver as datas</v-btn>
-            <div v-if="availableSchedules !== undefined">
-              <p>Horários disponíveis:</p>
-              <v-row>
-                <v-col
-                  v-for="(schedule, index) in availableSchedules"
-                  :key="index"
-                  cols="4"
-                >
-                  <v-btn @click="selectedSchedule = schedule.timeOfDay">
-                    {{ schedule.timeOfDay }}
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </div>
+          <v-btn @click="handleSelectedSportsCourt">Clica aqui pra ver as datas</v-btn>
+          <div v-if="availableSchedules !== undefined">
+            <p>Horários disponíveis:</p>
+            <v-row>
+              <v-col v-for="(schedule, index) in availableSchedules" :key="index" cols="4">
+                <v-btn @click="selectedSchedule = schedule.timeOfDay">
+                  {{ schedule.timeOfDay }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
 
-            <v-text-field v-model="name">Insira seu nome</v-text-field>
-            <v-text-field v-model="phone">Insira seu telefone</v-text-field>
-            <v-text-field v-model="email">Insira seu e-mail</v-text-field>
-            <v-btn @click="handleScheduleAppointment">Agendar</v-btn>
+          <v-text-field v-model="name">Insira seu nome</v-text-field>
+          <v-text-field v-model="phone">Insira seu telefone</v-text-field>
+          <v-text-field v-model="email">Insira seu e-mail</v-text-field>
+          <v-btn @click="handleScheduleAppointment">Agendar</v-btn>
         </v-sheet>
       </v-col>
     </v-row>

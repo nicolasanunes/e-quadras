@@ -15,7 +15,7 @@ defineProps({
 
 <template>
   <v-alert
-    class="ma-4 mb-16"
+    class="ma-5 mb-16"
     position="fixed"
     location="bottom end"
     density="compact"

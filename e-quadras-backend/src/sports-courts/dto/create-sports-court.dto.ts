@@ -14,8 +14,8 @@ export class CreateSportsCourtDto {
   name: string;
 
   @IsNotEmpty({ message: 'A modalidade não pode ser vazia!' })
-  @IsString()
-  modality: string;
+  @IsArray()
+  modality: string[];
 
   @IsNotEmpty({ message: 'O preço não pode ser vazio!' })
   @IsNumber()

@@ -9,7 +9,7 @@ export const useGlobalStore = defineStore('globalStore', {
       text: '',
       type: undefined as AlertType,
     },
-    isAuthenticated: !!localStorage.getItem('token'),
+    isAuthenticated: !!sessionStorage.getItem('token'),
   }),
   actions: {
     initializeAuth() {
@@ -17,7 +17,7 @@ export const useGlobalStore = defineStore('globalStore', {
     },
 
     checkToken(): boolean {
-      const token = localStorage.getItem('token')
+      const token = sessionStorage.getItem('token')
 
       if (!token) {
         return false

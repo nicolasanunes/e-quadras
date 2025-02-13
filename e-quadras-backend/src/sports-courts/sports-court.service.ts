@@ -85,7 +85,10 @@ export class SportsCourtService {
     });
 
     if (deletedSportsCourt !== null) {
-      this.sportsCourtRepository.delete(id);
+      await this.scheduleAppointmentRepository.delete({
+        sportsCourt: { id: id },
+      });
+      await this.sportsCourtRepository.delete(id);
       return { message: `A quadra ${deletedSportsCourt.name} foi excluída!` };
     } else {
       throw new NotFoundException('A quadra não foi encontrada!');

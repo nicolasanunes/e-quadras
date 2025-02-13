@@ -8,7 +8,7 @@ export class CreateTableSportsCourt1722256298089 implements MigrationInterface {
       CREATE TABLE sports_court (
         id SERIAL PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
-        modality VARCHAR(50) NOT NULL,
+        modality VARCHAR(255) NOT NULL,
         price DECIMAL(10, 2) NOT NULL,
         is_active BOOLEAN DEFAULT TRUE,
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
